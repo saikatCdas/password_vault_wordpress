@@ -1,0 +1,10 @@
+@import "./vendor";
+@import "./variables";
+@import "globals";
+@import "elements/nav";
+@import "elements/responsive";
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
