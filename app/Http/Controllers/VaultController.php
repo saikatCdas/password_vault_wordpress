@@ -30,11 +30,13 @@ class VaultController extends Controller
         try{
             // decoding data
             $decodedData = json_decode(urldecode($type), true);
+            // return $decodedData;
 
             $user_id = apply_filters( 'determine_current_user', false );
       
             $current_user_id = wp_set_current_user( $user_id )->ID;
 
+            // return $type;
             
             // exploding the string
             $parts = explode("=", $decodedData);
@@ -48,13 +50,13 @@ class VaultController extends Controller
                 }
             }else{
                 if($parts[1] === "null"){
-                    $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', null)->paginate(20);
+                    $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', (null || 0))->paginate(20);
                 }else{
                     $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', $parts[1])->paginate(20);
                 }
             }
 
-            return $vaultItems;
+            return $this->response($vaultItems);
 
         } catch (\Exception $e){
             return $this->sendError([
@@ -76,16 +78,19 @@ class VaultController extends Controller
             // Validate form data
             $vaultIntiData = $request->sanitize();
 
+            $arrayValue = array_flip(array('user_id','folder_id', 'category', 'email', 'name', 'user_name', 'password', 'url', 'card_holder_name', 'card_number', 'card_expiration_date', 'card_security_code', 'notes'));
+
+            $credential = array_intersect_key($vaultIntiData, $arrayValue);
             // if request has folder
-            $vaultIntiData['folder_id'] = $this->getFolderId($vaultIntiData['folder']);
+            $vaultIntiData['folder_id'] = $this->getFolderId($credential['folder']);
 
             // clearing the folder name
-            unset($vaultIntiData['folder']);
+            unset($credential['folder']);
 
-            $vaultIntiData['user_id'] = $current_user_id;
+            $credential['user_id'] = $current_user_id;
 
             // Create a vault
-            $vaultData = Vault::create($vaultIntiData);
+            $vaultData = Vault::create($credential);
 
             return $vaultData;
 
@@ -113,16 +118,19 @@ class VaultController extends Controller
             // Validate form data
             $vaultIntiData = $request->sanitize();
 
-            // if request has folder
-            $vaultIntiData['folder_id'] = $this->getFolderId($vaultIntiData['folder']);
-            unset($vaultIntiData['folder']);
+            $arrayValue = array_flip(array('user_id','folder_id', 'category', 'email', 'name', 'user_name', 'password', 'url', 'card_holder_name', 'card_number', 'card_expiration_date', 'card_security_code', 'notes'));
 
-            $vaultIntiData['user_id'] = $current_user_id;
+            $credential = array_intersect_key($vaultIntiData, $arrayValue);
+
+            // if request has folder
+            $credential['folder_id'] = $this->getFolderId($vaultIntiData['folder']);
+
+            $credential['user_id'] = $current_user_id;
 
             // update vault
-            Vault::whereId($vaultIntiData['id'])->update($vaultIntiData);
+            Vault::whereId($vaultIntiData['id'])->update($credential);
 
-            return 'success';
+            return $this->response('success');
 
         } catch (\Exception $e){
             return $this->sendError([
@@ -187,12 +195,11 @@ class VaultController extends Controller
 
             // Get Folder Name
             $folder = Folder::whereId($item['folder_id'])->first();
+            $item['folder'] = $folder['name'] ?? null;
 
-            $item['folder'] = $folder['name'];
-            // return $item['folder'];
 
             if($item->user_id == $current_user_id){
-                return $item;
+                return $this->response($item);
             }
 
             // return abort(403,'Unauthorized Action');
@@ -308,7 +315,7 @@ class VaultController extends Controller
 
              $fileName = 'vaultItems.csv';
             $vaultItems = Vault::where('user_id', $current_user_id )->get();
-            return $vaultItems;
+            return $this->response($vaultItems);
          
         }catch (\Exception $e){
             return $this->sendError([
@@ -331,8 +338,8 @@ class VaultController extends Controller
       
             $current_user_id = wp_set_current_user( $user_id )->ID;
 
-
-            
+            // return $_FILES['csv_file'];
+            return $request->all();
 
             if (isset($_FILES['csv_file'])) {
                 $file_name = $_FILES['csv_file']['name'];
@@ -342,7 +349,7 @@ class VaultController extends Controller
                 // $file = $request['csv_file'];
                 $csvData = file_get_contents($file_tmp);
                 $rows = array_map('str_getcsv', explode("\n", $csvData));
-                // return $rows;
+                return $rows;
                                 
                 foreach ($rows as $index => $row)
                 {
@@ -379,10 +386,10 @@ class VaultController extends Controller
                     Vault::create($credential);
                 }
                 // fclose($handle);
-            }
                 return $this->response([
                     'message' => __('Success', 'fluent-support')
                 ], 200);
+            } 
        
         }catch (\Exception $e){
             return $this->sendError([

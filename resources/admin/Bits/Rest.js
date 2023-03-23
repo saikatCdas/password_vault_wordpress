@@ -15,7 +15,9 @@ const request = function (method, route, data = {}) {
             url: url,
             type: method,
             data: data,
-            headers: headers
+            headers: headers,
+            enctype: 'multipart/form-data',
+            processData: false,
         })
             .then(response => resolve(response))
             .fail(errors => reject(errors.responseJSON));
@@ -27,8 +29,7 @@ export default {
         return request('GET', route, data);
     },
     post(route, data = {}) {
-        console.log(route);
-        // return request('POST', route, data);
+        return request('POST', route, data);
     },
     delete(route, data = {}) {
         return request('DELETE', route, data);

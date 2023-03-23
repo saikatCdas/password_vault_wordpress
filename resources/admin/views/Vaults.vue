@@ -163,7 +163,6 @@ const showVaultRef = ref();
 
 // get vault Items by category
 function allVaultItems (type){
-    console.log(type);
     loading.value = true
     router.push({
         name: 'vault',

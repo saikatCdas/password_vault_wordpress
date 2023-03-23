@@ -52,8 +52,8 @@
                     name: 'vault'
                 })
             })
-            .catch((er)=>{
-                console.log(er);
+            .catch((err)=>{
+                console.log(err);
                 store.commit("notify", {
                     type: "failed",
                     message: "Something is wrong !! ",

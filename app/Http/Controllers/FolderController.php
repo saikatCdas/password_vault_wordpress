@@ -19,7 +19,7 @@ class FolderController extends Controller
 
         $user_id = wp_set_current_user( $current_user_id )->ID;
 
-        return Folder::where('user_id', $user_id)->get();
+        return $this->response(Folder::where('user_id', $user_id)->get());
     }
 
     
@@ -33,6 +33,7 @@ class FolderController extends Controller
     {
 
         $folderName = $request->sanitize();
+        unset($folderName['query_timestamp']);
         
         // Gettting the currrent user id
         $current_user_id = apply_filters( 'determine_current_user', false );
@@ -44,6 +45,6 @@ class FolderController extends Controller
 
         Folder::create($folderName);
 
-        return Folder::where('user_id', $user_id)->get();
+        return $this->response(Folder::where('user_id', $user_id)->get());
     }
 }

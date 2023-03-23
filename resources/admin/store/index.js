@@ -1,7 +1,6 @@
 import {createLogger, createStore} from 'vuex';
-import post from '../Bits/Rest';
-import axiosClient from '../axios';
-
+import Rest from '../Bits/Rest';
+const {get, post, put} = Rest;
 const store = createStore({
     state:{
         user:{
@@ -22,23 +21,22 @@ const store = createStore({
     getters:{},
     actions:{
         search({commit}, searchInp){
-            return axiosClient.get(`/search/${searchInp}`)
-            .then(({data})=>{
+            return get(`search/${searchInp}`)
+            .then((data)=>{
                 commit('setVaultItems', data);
             });
         },
         import({commit}, data){
-            return axiosClient.post('/import', data);
+            return post('import', data);
         },
         moveFolder({commit}, data){
-            console.log(data);
-            return axiosClient.put('/move-folder', data);
+            return put('move-folder', data);
         },
         deleteSelectedVaultItem({commit}, itemId){
-            return axiosClient.delete(`/delete-selected-vault-item/${itemId}`);
+            return Rest.delete(`delete-selected-vault-item/${itemId}`);
         },
         getItem({commit}, id){
-            return axiosClient.get(`/get-item/${id}`)
+            return get(`get-item/${id}`)
                 .then((data)=>{
                     commit('setVaultItem', data);
                 })
@@ -51,10 +49,10 @@ const store = createStore({
                 queryString = Object.keys(type).map(key => key + '=' + type[key]).join('&');
             }
             const encodedData = encodeURIComponent(JSON.stringify(queryString));
-            //checking if request has url
-            url = url || `/get-all-vault/${encodedData}`
-            return axiosClient.get(url)
-                .then(({data})=>{
+            // checking if request has url
+            url = url || `get-all-vault/${encodedData}`
+            return get(url)
+                .then((data)=>{
                     commit('setVaultItems', data);
                 });
         },
@@ -62,28 +60,28 @@ const store = createStore({
         // Create or Update Vault Item
         manageVault({commit}, vaultData){
             if(!vaultData.id){
-                return axiosClient.post('/create-vault', vaultData);
+                return post('create-vault', vaultData);
             }else{
-                return axiosClient.put('/update-vault', vaultData);
+                return put('update-vault', vaultData);
             }
         },
         getFolder({commit}){
-            return axiosClient.get('/get-folder')
-                .then(({data})=>{
+            return get('get-folder')
+                .then((data)=>{
                     commit('setFolderName', data)
                 })
         },
         createFolder({commit}, folderName){
-            return axiosClient.post('/create-folder', {name:folderName})
-                .then(({data})=>{
+            return post('create-folder', {name:folderName})
+                .then((data)=>{
                     commit('setFolderName', data);
                 })
         },
         exportVault({commit}){
-            return axiosClient.get('export')
+            return get('export')
                 .then((res)=>{
                     // console.log(res.data);
-                    const array = res.data
+                    const array = res
                     const header = Object.keys(array[0]).join(",");
                     const data = array.map(obj => {
                         return Object.values(obj).map(val => {
@@ -101,7 +99,7 @@ const store = createStore({
     },
     mutations:{
         setVaultItem:(state, vaultItem) => {
-            state.vaultItem = vaultItem.data;
+            state.vaultItem = vaultItem;
         },
         setVaultItems:(state, allVaultData)=>{
             state.vaultItems = allVaultData.data;
