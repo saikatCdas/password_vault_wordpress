@@ -8,7 +8,7 @@ use FluentPlugin\App\Models\User;
 
 class Vault extends Model
 {   
-    protected $table = 'vaults';
+    protected $table = 'fp_password_vaults';
 
 
     // Relation with User Class

@@ -8,19 +8,27 @@ const request = function (method, route, data = {}) {
         method = 'POST';
     }
 
-    data.query_timestamp = Date.now();
+    if (method !== 'GET' && method !== 'UPLOAD') {
+        data = JSON.stringify(data);
+    }
 
-    return new Promise((resolve, reject) => {
-        window.jQuery.ajax({
+    if (method === 'UPLOAD') {
+        return window.jQuery.ajax({
             url: url,
-            type: method,
+            type: "POST",
             data: data,
-            headers: headers,
-            enctype: 'multipart/form-data',
-            processData: false,
-        })
-            .then(response => resolve(response))
-            .fail(errors => reject(errors.responseJSON));
+            contentType: false,
+            cache: false,
+            processData: false
+        });
+    }
+
+    return window.jQuery.ajax({
+        url: url,
+        type: method,
+        data: data,
+        headers: headers,
+        contentType: 'application/json'
     });
 }
 
@@ -39,6 +47,9 @@ export default {
     },
     patch(route, data = {}) {
         return request('PATCH', route, data);
+    },
+    upload(route, data = {}) {
+        return request('UPLOAD', route, data);
     }
 };
 

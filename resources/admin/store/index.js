@@ -1,6 +1,6 @@
 import {createLogger, createStore} from 'vuex';
 import Rest from '../Bits/Rest';
-const {get, post, put} = Rest;
+const {get, post, put, upload} = Rest;
 const store = createStore({
     state:{
         user:{
@@ -26,8 +26,8 @@ const store = createStore({
                 commit('setVaultItems', data);
             });
         },
-        import({commit}, data){
-            return post('import', data);
+        import({commit}, csvData){
+            return upload('import', csvData);
         },
         moveFolder({commit}, data){
             return put('move-folder', data);

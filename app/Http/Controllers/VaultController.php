@@ -50,7 +50,7 @@ class VaultController extends Controller
                 }
             }else{
                 if($parts[1] === "null"){
-                    $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', (null || 0))->paginate(20);
+                    $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', null)->paginate(20);
                 }else{
                     $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', $parts[1])->paginate(20);
                 }
@@ -339,17 +339,19 @@ class VaultController extends Controller
             $current_user_id = wp_set_current_user( $user_id )->ID;
 
             // return $_FILES['csv_file'];
-            return $request->all();
+            if (!isset($_FILES['import_file'])) {
+                throw new \Exception('No file found');
+            }
 
-            if (isset($_FILES['csv_file'])) {
-                $file_name = $_FILES['csv_file']['name'];
-                $file_size = $_FILES['csv_file']['size'];
-                $file_tmp = $_FILES['csv_file']['tmp_name'];
-                $file_type = $_FILES['csv_file']['type'];
+            if (isset($_FILES['import_file'])) {
+                $file_name = $_FILES['import_file']['name'];
+                $file_size = $_FILES['import_file']['size'];
+                $file_tmp = $_FILES['import_file']['tmp_name'];
+                $file_type = $_FILES['import_file']['type'];
                 // $file = $request['csv_file'];
                 $csvData = file_get_contents($file_tmp);
                 $rows = array_map('str_getcsv', explode("\n", $csvData));
-                return $rows;
+                // return $rows;
                                 
                 foreach ($rows as $index => $row)
                 {

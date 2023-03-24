@@ -34932,20 +34932,25 @@ var request = function request(method, route) {
     headers['X-HTTP-Method-Override'] = method;
     method = 'POST';
   }
-  data.query_timestamp = Date.now();
-  return new Promise(function (resolve, reject) {
-    window.jQuery.ajax({
+  if (method !== 'GET' && method !== 'UPLOAD') {
+    data = JSON.stringify(data);
+  }
+  if (method === 'UPLOAD') {
+    return window.jQuery.ajax({
       url: url,
-      type: method,
+      type: "POST",
       data: data,
-      headers: headers,
-      enctype: 'multipart/form-data',
+      contentType: false,
+      cache: false,
       processData: false
-    }).then(function (response) {
-      return resolve(response);
-    }).fail(function (errors) {
-      return reject(errors.responseJSON);
     });
+  }
+  return window.jQuery.ajax({
+    url: url,
+    type: method,
+    data: data,
+    headers: headers,
+    contentType: 'application/json'
   });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -34968,6 +34973,10 @@ var request = function request(method, route) {
   patch: function patch(route) {
     var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
     return request('PATCH', route, data);
+  },
+  upload: function upload(route) {
+    var data = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+    return request('UPLOAD', route, data);
   }
 });
 jQuery(document).ajaxSuccess(function (event, xhr, settings) {
@@ -35219,7 +35228,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var get = _Bits_Rest__WEBPACK_IMPORTED_MODULE_0__["default"].get,
   post = _Bits_Rest__WEBPACK_IMPORTED_MODULE_0__["default"].post,
-  put = _Bits_Rest__WEBPACK_IMPORTED_MODULE_0__["default"].put;
+  put = _Bits_Rest__WEBPACK_IMPORTED_MODULE_0__["default"].put,
+  upload = _Bits_Rest__WEBPACK_IMPORTED_MODULE_0__["default"].upload;
 var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.createStore)({
   state: {
     user: {
@@ -35245,9 +35255,9 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.createStore)({
         commit('setVaultItems', data);
       });
     },
-    "import": function _import(_ref2, data) {
+    "import": function _import(_ref2, csvData) {
       var commit = _ref2.commit;
-      return post('import', data);
+      return upload('import', csvData);
     },
     moveFolder: function moveFolder(_ref3, data) {
       var commit = _ref3.commit;
@@ -35708,9 +35718,14 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
       // Create a new FormData object and append the file
-      var formData = new FormData();
-      formData.append('csv_file', file);
-      _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('import', formData).then(function () {
+      // const formData = new FormData()
+      // formData.append('csv_file', file)
+      // let query = {
+      //     _wpnonce: window.fluentFrameworkAdmin.rest.nonnce
+      // };
+      // var data = new URLSearchParams(query)
+      // const data = 
+      _store__WEBPACK_IMPORTED_MODULE_1__["default"].dispatch('import', new FormData(jQuery('#upload_csv_form')[0])).then(function () {
         _store__WEBPACK_IMPORTED_MODULE_1__["default"].commit("notify", {
           type: "success",
           message: "File imported successfully !!"
@@ -37281,30 +37296,44 @@ var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   "class": "mt-4"
 })], -1 /* HOISTED */);
 var _hoisted_2 = {
+  enctype: "multipart/form-data",
+  ref: "importFormRef",
+  id: "upload_csv_form",
+  "class": "mt-6 space-y-6 py-2 px-3"
+};
+var _hoisted_3 = {
   "class": "flex flex-col text-gray-600 space-y-2"
 };
-var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  type: "hidden",
+  name: "action",
+  value: "wppayform_global_tools"
+}, null, -1 /* HOISTED */);
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  type: "hidden",
+  name: "route",
+  value: "upload_form"
+}, null, -1 /* HOISTED */);
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
   "class": "text-lg"
 }, "Choose a csv file", -1 /* HOISTED */);
-var _hoisted_4 = {
-  type: "submit",
-  "class": "py-2 px-3 text-lg rounded-md bg-emerald-500 hover:bg-emerald-600 text-white"
-};
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    ref: "importFormRef",
-    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
-      return $setup.submitFile(_ctx.event);
-    }, ["prevent"])),
-    "class": "mt-6 space-y-6 py-2 px-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [_hoisted_1, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, _hoisted_5, _hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     onClick: _cache[0] || (_cache[0] = function ($event) {
       return $setup.showUploadButton = true;
     }),
     type: "file",
     ref: "fileInput",
+    name: "import_file",
     required: ""
-  }, null, 512 /* NEED_PATCH */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", _hoisted_4, "Upload", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.showUploadButton]])], 544 /* HYDRATE_EVENTS, NEED_PATCH */)]);
+  }, null, 512 /* NEED_PATCH */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(function ($event) {
+      return $setup.submitFile(_ctx.event);
+    }, ["prevent"])),
+    type: "primary",
+    "class": "py-2 px-3 text-lg rounded-md bg-emerald-500 hover:bg-emerald-600 text-white"
+  }, "Upload", 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.showUploadButton]])], 512 /* NEED_PATCH */)]);
 }
 
 /***/ }),

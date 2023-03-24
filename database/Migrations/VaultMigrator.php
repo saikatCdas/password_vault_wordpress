@@ -4,7 +4,7 @@ namespace FluentPlugin\Database\Migrations;
 
 class VaultMigrator
 {
-    static $tableName = 'vaults';
+    static $tableName = 'fp_password_vaults';
 
     public static function migrate()
     {

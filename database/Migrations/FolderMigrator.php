@@ -4,7 +4,7 @@ namespace FluentPlugin\Database\Migrations;
 
 class FolderMigrator
 {
-    static $tableName = 'folders';
+    static $tableName = 'fp_password_folders';
 
     public static function migrate()
     {

@@ -4,12 +4,14 @@
             <h1 class="text-3xl text-gray-700">Import Data </h1>
             <hr class="mt-4">
         </div>
-        <form ref="importFormRef" @submit.prevent="submitFile(event)" class="mt-6 space-y-6 py-2 px-3">
+        <form enctype="multipart/form-data" ref="importFormRef"  id="upload_csv_form" class="mt-6 space-y-6 py-2 px-3">
             <div class="flex flex-col  text-gray-600 space-y-2">
+                <input type="hidden" name="action" value="wppayform_global_tools"/>
+                <input type="hidden" name="route" value="upload_form"/>
                 <label class="  text-lg ">Choose a csv file</label>
-                <input @click="showUploadButton = true" type="file" ref="fileInput" required/>
+                <input @click="showUploadButton = true" type="file" ref="fileInput" name="import_file" required/>
             </div>
-            <button v-show="showUploadButton" type="submit" class="py-2 px-3 text-lg rounded-md bg-emerald-500 hover:bg-emerald-600 text-white">Upload</button>
+            <button @click.prevent="submitFile(event)" v-show="showUploadButton" type="primary" class="py-2 px-3 text-lg rounded-md bg-emerald-500 hover:bg-emerald-600 text-white">Upload</button>
         </form>
     </div>
     </template>
@@ -40,9 +42,14 @@
             return;
         }
         // Create a new FormData object and append the file
-        const formData = new FormData()
-        formData.append('csv_file', file)
-        store.dispatch('import', formData)
+        // const formData = new FormData()
+        // formData.append('csv_file', file)
+        // let query = {
+        //     _wpnonce: window.fluentFrameworkAdmin.rest.nonnce
+        // };
+        // var data = new URLSearchParams(query)
+        // const data = 
+        store.dispatch('import', new FormData(jQuery('#upload_csv_form')[0]))
             .then(() => {
                 store.commit("notify", {
                     type: "success",
