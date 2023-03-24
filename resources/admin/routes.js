@@ -1,6 +1,6 @@
-import Vaults from './views/Vaults.vue';
-import Tools from './views/Tools.vue';
-import VaultItemView from './Components/Vaults/VaultModal.vue';
+import Vaults from './Components/Vaults.vue';
+import Tools from './Components/Tools.vue';
+import VaultItemView from './Modules/Vaults/VaultModal.vue';
 import NotFound from './Components/NotFound.vue';
 
 export var routes = [
@@ -11,11 +11,6 @@ export var routes = [
         meta: {
             active_menu: 'vault'
         }
-    },
-    {
-        path: '/vault/item/add', 
-        name:'VaultItemAdd', 
-        component: VaultItemView
     },
     {
         path: '/vault/item/edit:', 

@@ -142,11 +142,11 @@ import { ref } from '@vue/reactivity';
 import { computed, onMounted, watchEffect } from '@vue/runtime-core';
 import { routerKey, useRoute, useRouter } from 'vue-router';
 import PageComponent from '../Components/PageComponent.vue';
-import Search from '../Components/Vaults/Search.vue';
-import MenuButton from '../Components/Vaults/MenuButton.vue';
-import FolderModal from '../Components/Vaults/FolderModal.vue';
-import VaultModal from '../Components/Vaults/VaultModal.vue';
-import ShowVault from '../Components/Vaults/ShowVault.vue';
+import Search from '../Modules/Vaults/Search.vue';
+import MenuButton from '../Modules/Vaults/MenuButton.vue';
+import FolderModal from '../Modules/Vaults/FolderModal.vue';
+import VaultModal from '../Modules/Vaults/VaultModal.vue';
+import ShowVault from '../Modules/Vaults/ShowVault.vue';
 import store from '../store';
 
 const route = useRoute();

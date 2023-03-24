@@ -37,7 +37,7 @@
 <script setup>
 import { ref } from '@vue/reactivity';
 import store from '../../store';
-import Pagination from '../Pagination.vue';
+import Pagination from '../../Components/PageComponent.vue';
 import ChangeFolderModal from './ChangeFolderModal.vue';
 
 const props = defineProps({

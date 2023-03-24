@@ -28,10 +28,10 @@
 import { ref } from '@vue/reactivity';
 import { onMounted } from '@vue/runtime-core';
 import { useRoute, useRouter } from 'vue-router';
-import PageComponent from '../Components/PageComponent.vue';
-import Exports from '../Components/Tools/Exports.vue';
-import Generator from '../Components/Tools/Generator.vue';
-import Imports from '../Components/Tools/Imports.vue';
+import PageComponent from './PageComponent.vue';
+import Exports from '../Modules/Tools/Exports.vue';
+import Generator from '../Modules/Tools/Generator.vue';
+import Imports from '../Modules/Tools/Imports.vue';
 
 const page = ref('generator');
 const navigation = ['Generator', 'Import Data', 'Export Vault'];
