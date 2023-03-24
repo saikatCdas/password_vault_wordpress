@@ -8,6 +8,7 @@ use FluentPlugin\App\Models\Folder;
 use FluentPlugin\App\Http\Requests\VaultRequest;
 use FluentPlugin\App\Models\User;
 use Exception;
+use FluentPlugin\Framework\Validator\Validator;
 
 
 
@@ -112,13 +113,6 @@ class VaultController extends Controller
     public function moveFolder(Request $request){
         try{
             $data = $request->all();
-            // Checking Folder Exist
-            if($data['folderId'] !== null){
-                $data->validate([
-                    'folderId' => 'exists:folders,id'
-                ], []);
-            };
-            
             return $this->response(Folder::changeFolder($data) );
 
         }catch (\Exception $e){
