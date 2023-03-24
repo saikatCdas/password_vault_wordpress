@@ -37,7 +37,7 @@ class Folder extends Model
         $itemIds = $data['itemsId'];
         foreach($itemIds as $id){
             $item = Vault::whereId($id)->first();
-            $item['folder_id'] = $folderId ? $folderId : $data['folderId'];
+            $item['folder_id'] = $folderId ? $data['folderId'] : $data['folderId'];
             $item->save();
         }
 
