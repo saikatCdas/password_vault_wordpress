@@ -31,20 +31,12 @@ class FolderController extends Controller
      */
     public function store(FolderRequest $request)
     {
-
-        $folderName = $request->sanitize();
-        unset($folderName['query_timestamp']);
-        
-        // Gettting the currrent user id
-        $current_user_id = apply_filters( 'determine_current_user', false );
-      
-        $user_id = wp_set_current_user( $current_user_id )->ID;
-
-
-        $folderName['user_id'] = $user_id;
-
-        Folder::create($folderName);
-
-        return $this->response(Folder::where('user_id', $user_id)->get());
+        try {
+            return $this->response(Folder::createFolder($request->sanitize()));
+        } catch (\Exception $e){
+            return $this->sendError([
+                'message' => $e->getMessage()
+            ], 423);
+        }
     }
 }

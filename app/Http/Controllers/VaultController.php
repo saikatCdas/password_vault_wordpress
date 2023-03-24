@@ -38,9 +38,7 @@ class VaultController extends Controller
     {
         try{
             // Validate form data
-            $vaultIntiData = $request->sanitize();
-
-            return $this->response(Vault::createNewItem($vaultIntiData));
+            return $this->response(Vault::createNewItem($request->sanitize()));
 
         } catch (\Exception $e){
             return $this->sendError([
