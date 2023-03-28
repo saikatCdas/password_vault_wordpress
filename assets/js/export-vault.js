@@ -1,10 +1,9 @@
 
 function exportData() {
     jQuery.get("http://wordpress.test/wp-json/fluentplugin/v2/export",  function(response) {
-
-            const array = response
-            const header = Object.keys(array[0]).join(",");
-            const data = array.map(obj => {
+        
+            const header = Object.keys(response[0]).join(",");
+            const data = response.map(obj => {
                 return Object.values(obj).map(val => {
                 if (typeof val === "string") {
                     return `"${val.replace(/"/g, '""')}"`;
