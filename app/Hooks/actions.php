@@ -21,3 +21,11 @@ $app->addAction('admin_menu', 'AdminMenuHandler@add');
 
 // $app->addAction('init', 'CPTHandler@registerPostTypes');
 
+
+// Load dependencies
+$app->addAction('fluentplugin_loaded', function ($app) {
+    $dependency = new \FluentPlugin\App\Hooks\Handlers\DependencyHandler();
+    $dependency->registerShortCodes();
+});
+
+

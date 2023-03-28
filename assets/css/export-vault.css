@@ -1,0 +1,31 @@
+.export-main-div{
+    margin: 1rem;
+}
+
+.export-header{
+    font-size: xx-large;
+    color: rgb(55 65 81);
+}
+
+.mt-4{
+    margin-top: 1rem;
+}
+
+.export-button{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem; 
+    text-decoration: none;
+    font-size: 1.125rem; 
+    line-height: 1.75rem; 
+    border-radius: 0.375rem;
+    background-color: rgb(16 185 129);
+    color: white;
+    border: none;
+}
+.export-button:hover{
+    background-color: rgb(5 150 105);
+}
+
+/* py-2 px-3 text-lg rounded-md bg-emerald-500 hover:bg-emerald-600 text-white */

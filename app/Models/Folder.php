@@ -11,6 +11,11 @@ class Folder extends Model
     protected $table = 'fp_password_folders';
 
 
+    /**
+     * Create a new folder
+     * 
+     * @return void
+     */
     public static function createFolder($folderName){
         unset($folderName['query_timestamp']);
         
@@ -27,6 +32,12 @@ class Folder extends Model
         return Folder::where('user_id', $user_id)->get();
     }
 
+
+    /**
+     * Change folder
+     * 
+     * @return void
+     */
     public static function changeFolder ($data) {
 
         if($data['folderId'] ){
