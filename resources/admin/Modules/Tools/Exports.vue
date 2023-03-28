@@ -15,6 +15,7 @@ import store from "../../store";
 function exportData() {
     store.dispatch('exportVault')
         .then(()=>{
+            
             const blob = new Blob([store.state.exportData], { type: "text/csv" });
             const url = URL.createObjectURL(blob);
             const link = document.createElement("a");

@@ -26,6 +26,10 @@ $app->addAction('admin_menu', 'AdminMenuHandler@add');
 $app->addAction('fluentplugin_loaded', function ($app) {
     $dependency = new \FluentPlugin\App\Hooks\Handlers\DependencyHandler();
     $dependency->registerShortCodes();
+    
+    wp_enqueue_script('fulentplugin_public', FULENTPLUGIN_URL . 'assets/js/export-vault.js', array('jquery'), FULENTPLUGIN_VERSION, true);
+    wp_enqueue_style('fulentplugin_public', FULENTPLUGIN_URL . 'assets/css/export-vault.css', array(), FULENTPLUGIN_VERSION);
+
 });
 
 
