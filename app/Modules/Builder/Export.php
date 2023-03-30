@@ -27,7 +27,7 @@ class Export
 
     private function addAssets()
     {
-        wp_enqueue_script('fulentplugin_public', FULENTPLUGIN_URL . 'assets/js/export-vault.js', array('jquery'), FULENTPLUGIN_VERSION, true);
+        wp_enqueue_script('fulentplugin_public_export', FULENTPLUGIN_URL . 'assets/js/export-vault.js', array('jquery'), FULENTPLUGIN_VERSION, true);
         wp_enqueue_script('fulentplugin_public_css', "https://cdn.tailwindcss.com");
     }
 }

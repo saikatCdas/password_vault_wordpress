@@ -28,7 +28,7 @@ class Import
 
     private function addAssets()
     {
-        wp_enqueue_script('fulentplugin_public', FULENTPLUGIN_URL . 'assets/js/import-vault.js', array('jquery'), FULENTPLUGIN_VERSION, true);
+        wp_enqueue_script('fulentplugin_public_import', FULENTPLUGIN_URL . 'assets/js/import-vault.js', array('jquery'), FULENTPLUGIN_VERSION, true);
         wp_enqueue_script('fulentplugin_public_css', "https://cdn.tailwindcss.com");
     }
 }
