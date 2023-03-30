@@ -9,7 +9,7 @@ jQuery(document).ready(function() {
 
 
     jQuery.ajax({
-      url: "http://wordpress.test/wp-json/fluentplugin/v2/get-folder", // change this to the URL of your server endpoint that returns folder data
+      url: "http://wordpress.test/wp-json/fluentplugin/v2/get-folder", 
       type: 'GET',
       dataType: 'json',
       success: function(response) {
