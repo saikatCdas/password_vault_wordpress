@@ -39,7 +39,24 @@ class VaultRequest extends RequestGuard
      */
     public function sanitize()
     {
-        $data = $this->all();
+        $initaialData = $this->all();
+
+        $default= [
+            'category'  => '',
+            'name'      => '',
+            'user_name' => '',
+            'email'     => '',
+            'password'  => '',
+            'url'       => '',
+            'card_holder_name' => '',
+            'card_number' => '',
+            'card_expiration_date' => '',
+            'card_security_code' => '',
+            'notes'     => '',
+            'folder'=>''
+        ];
+        
+        $data = array_merge($default, $initaialData);
 
         $data['category'] = sanitize_text_field($data['category']);
         $data['name'] = sanitize_text_field($data['name']);

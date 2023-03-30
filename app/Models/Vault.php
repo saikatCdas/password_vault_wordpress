@@ -58,20 +58,16 @@ class Vault extends Model
      * @return void
      */
     public static function createNewItem($vaultIntiData){
-
-        $arrayValue = array_flip(array('user_id','folder_id', 'category', 'email', 'name', 'user_name', 'password', 'url', 'card_holder_name', 'card_number', 'card_expiration_date', 'card_security_code', 'notes'));
-
-        $credential = array_intersect_key($vaultIntiData, $arrayValue);
         // if request has folder
-        $vaultIntiData['folder_id'] = (new FolderTools())->getFolderId($credential['folder']);
+        $vaultIntiData['folder_id'] = (new FolderTools())->getFolderId($vaultIntiData['folder']);
 
         // clearing the folder name
-        unset($credential['folder']);
+        unset($vaultIntiData['folder']);
 
-        $credential['user_id'] = (new Vault())->authUserId();
+        $vaultIntiData['user_id'] = (new Vault())->authUserId();
 
         // Create a vault
-        $vaultData = Vault::create($credential);
+        $vaultData = Vault::create($vaultIntiData);
 
         return $vaultData;
     }

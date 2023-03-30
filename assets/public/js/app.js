@@ -34900,18 +34900,6 @@ const flattedChildren = (children) => {
 
 /***/ }),
 
-/***/ "./resources/scss/admin.scss":
-/*!***********************************!*\
-  !*** ./resources/scss/admin.scss ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-// extracted by mini-css-extract-plugin
-
-
-/***/ }),
-
 /***/ "./resources/admin/Bits/Rest.js":
 /*!**************************************!*\
   !*** ./resources/admin/Bits/Rest.js ***!
@@ -35046,121 +35034,6 @@ var Storage = /*#__PURE__*/function () {
   return Storage;
 }();
 
-
-/***/ }),
-
-/***/ "./resources/admin/app.js":
-/*!********************************!*\
-  !*** ./resources/admin/app.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.mjs");
-/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./routes */ "./resources/admin/routes.js");
-/* harmony import */ var _Application_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Application.vue */ "./resources/admin/Application.vue");
-/* harmony import */ var _Bits_Rest_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Bits/Rest.js */ "./resources/admin/Bits/Rest.js");
-/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/notification/index.mjs");
-/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/message-box/index.mjs");
-/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/loading/index.mjs");
-/* harmony import */ var _Bits_Storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Bits/Storage */ "./resources/admin/Bits/Storage.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./resources/admin/store/index.js");
-/* harmony import */ var _soerenmartius_vue3_clipboard__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @soerenmartius/vue3-clipboard */ "./node_modules/@soerenmartius/vue3-clipboard/dist/vue3-clipboard.esm.js");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-
-
-
-
-
-
-
-
-function convertToText(obj) {
-  var string = [];
-  if (_typeof(obj) === 'object' && obj.join === undefined) {
-    for (var prop in obj) {
-      string.push(convertToText(obj[prop]));
-    }
-  } else if (_typeof(obj) === 'object' && !(obj.join === undefined)) {
-    for (var _prop in obj) {
-      string.push(convertToText(obj[_prop]));
-    }
-  } else if (typeof obj === 'function') {} else if (typeof obj === 'string') {
-    string.push(obj);
-  }
-  return string.join('<br />');
-}
-var app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)(_Application_vue__WEBPACK_IMPORTED_MODULE_2__["default"]);
-app.config.globalProperties.appVars = window.fluentFrameworkAdmin;
-app.mixin({
-  data: function data() {
-    return {
-      Storage: _Bits_Storage__WEBPACK_IMPORTED_MODULE_4__["default"]
-    };
-  },
-  methods: {
-    $get: _Bits_Rest_js__WEBPACK_IMPORTED_MODULE_3__["default"].get,
-    $post: _Bits_Rest_js__WEBPACK_IMPORTED_MODULE_3__["default"].post,
-    $put: _Bits_Rest_js__WEBPACK_IMPORTED_MODULE_3__["default"].put,
-    $del: _Bits_Rest_js__WEBPACK_IMPORTED_MODULE_3__["default"]["delete"],
-    formatNumber: function formatNumber(amount) {
-      var hideEmpty = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-      if (!amount && hideEmpty) {
-        return '';
-      }
-      if (!amount) {
-        amount = '0';
-      }
-      return new Intl.NumberFormat('en-US').format(amount);
-    },
-    $changeTitle: function $changeTitle(title) {
-      jQuery('head title').text(title + ' - FluentCart');
-    },
-    $handleError: function $handleError(response) {
-      var errorMessage = '';
-      if (typeof response === 'string') {
-        errorMessage = response;
-      } else if (response && response.message) {
-        errorMessage = response.message;
-      } else {
-        errorMessage = convertToText(response);
-      }
-      if (!errorMessage) {
-        errorMessage = 'Something is wrong!';
-      }
-      this.$notify({
-        type: 'error',
-        title: 'Error',
-        message: errorMessage,
-        dangerouslyUseHTMLString: true
-      });
-    }
-  }
-});
-app.config.globalProperties.$notify = element_plus__WEBPACK_IMPORTED_MODULE_6__.ElNotification;
-app.config.globalProperties.$confirm = element_plus__WEBPACK_IMPORTED_MODULE_7__.ElMessageBox.confirm;
-var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_8__.createRouter)({
-  routes: _routes__WEBPACK_IMPORTED_MODULE_1__.routes,
-  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_8__.createWebHashHistory)()
-});
-app.use(router);
-app.use(element_plus__WEBPACK_IMPORTED_MODULE_9__.ElLoading);
-app.use(_store__WEBPACK_IMPORTED_MODULE_5__["default"]);
-app.use(_soerenmartius_vue3_clipboard__WEBPACK_IMPORTED_MODULE_10__.VueClipboard);
-app.mount('#fluent-framework-app');
-router.afterEach(function (to, from) {
-  var activeMenu = to.meta.active_menu;
-  jQuery('.fframe_menu li').removeClass('active_item');
-  jQuery('.fframe_menu li.fframe_item_' + activeMenu).addClass('active_item');
-  jQuery('.toplevel_page_fluent_frame li').removeClass('current'); // change fluent_frame with your plugin slug
-  jQuery('.toplevel_page_fluent_frame li.fluent_frame_' + activeMenu).addClass('current'); // change fluent_frame with your plugin slug
-
-  if (to.meta.title) {
-    jQuery('head title').text(to.meta.title + ' - Fluent Framework'); // Change it with your app name
-  }
-});
 
 /***/ }),
 
@@ -86679,42 +86552,7 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = __webpack_modules__;
-/******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/chunk loaded */
-/******/ 	(() => {
-/******/ 		var deferred = [];
-/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
-/******/ 			if(chunkIds) {
-/******/ 				priority = priority || 0;
-/******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
-/******/ 				deferred[i] = [chunkIds, fn, priority];
-/******/ 				return;
-/******/ 			}
-/******/ 			var notFulfilled = Infinity;
-/******/ 			for (var i = 0; i < deferred.length; i++) {
-/******/ 				var [chunkIds, fn, priority] = deferred[i];
-/******/ 				var fulfilled = true;
-/******/ 				for (var j = 0; j < chunkIds.length; j++) {
-/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
-/******/ 						chunkIds.splice(j--, 1);
-/******/ 					} else {
-/******/ 						fulfilled = false;
-/******/ 						if(priority < notFulfilled) notFulfilled = priority;
-/******/ 					}
-/******/ 				}
-/******/ 				if(fulfilled) {
-/******/ 					deferred.splice(i--, 1)
-/******/ 					var r = fn();
-/******/ 					if (r !== undefined) result = r;
-/******/ 				}
-/******/ 			}
-/******/ 			return result;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -86755,68 +86593,120 @@ __webpack_require__.r(__webpack_exports__);
 /******/ 		};
 /******/ 	})();
 /******/ 	
-/******/ 	/* webpack/runtime/jsonp chunk loading */
-/******/ 	(() => {
-/******/ 		// no baseURI
-/******/ 		
-/******/ 		// object to store loaded and loading chunks
-/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
-/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
-/******/ 		var installedChunks = {
-/******/ 			"/admin/app": 0,
-/******/ 			"admin/admin": 0
-/******/ 		};
-/******/ 		
-/******/ 		// no chunk on demand loading
-/******/ 		
-/******/ 		// no prefetching
-/******/ 		
-/******/ 		// no preloaded
-/******/ 		
-/******/ 		// no HMR
-/******/ 		
-/******/ 		// no HMR manifest
-/******/ 		
-/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
-/******/ 		
-/******/ 		// install a JSONP callback for chunk loading
-/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
-/******/ 			var [chunkIds, moreModules, runtime] = data;
-/******/ 			// add "moreModules" to the modules object,
-/******/ 			// then flag all "chunkIds" as loaded and fire callback
-/******/ 			var moduleId, chunkId, i = 0;
-/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
-/******/ 				for(moduleId in moreModules) {
-/******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
-/******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
-/******/ 					}
-/******/ 				}
-/******/ 				if(runtime) var result = runtime(__webpack_require__);
-/******/ 			}
-/******/ 			if(parentChunkLoadingFunction) parentChunkLoadingFunction(data);
-/******/ 			for(;i < chunkIds.length; i++) {
-/******/ 				chunkId = chunkIds[i];
-/******/ 				if(__webpack_require__.o(installedChunks, chunkId) && installedChunks[chunkId]) {
-/******/ 					installedChunks[chunkId][0]();
-/******/ 				}
-/******/ 				installedChunks[chunkId] = 0;
-/******/ 			}
-/******/ 			return __webpack_require__.O(result);
-/******/ 		}
-/******/ 		
-/******/ 		var chunkLoadingGlobal = self["webpackChunkfluentplugin"] = self["webpackChunkfluentplugin"] || [];
-/******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
-/******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-/******/ 	})();
-/******/ 	
 /************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["admin/admin"], () => (__webpack_require__("./resources/admin/app.js")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["admin/admin"], () => (__webpack_require__("./resources/scss/admin.scss")))
-/******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
-/******/ 	
+var __webpack_exports__ = {};
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
+(() => {
+/*!********************************!*\
+  !*** ./resources/admin/app.js ***!
+  \********************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.mjs");
+/* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./routes */ "./resources/admin/routes.js");
+/* harmony import */ var _Application_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Application.vue */ "./resources/admin/Application.vue");
+/* harmony import */ var _Bits_Rest_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Bits/Rest.js */ "./resources/admin/Bits/Rest.js");
+/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/notification/index.mjs");
+/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/message-box/index.mjs");
+/* harmony import */ var element_plus__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! element-plus */ "./node_modules/element-plus/es/components/loading/index.mjs");
+/* harmony import */ var _Bits_Storage__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Bits/Storage */ "./resources/admin/Bits/Storage.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./store */ "./resources/admin/store/index.js");
+/* harmony import */ var _soerenmartius_vue3_clipboard__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @soerenmartius/vue3-clipboard */ "./node_modules/@soerenmartius/vue3-clipboard/dist/vue3-clipboard.esm.js");
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+
+
+
+
+
+
+
+
+function convertToText(obj) {
+  var string = [];
+  if (_typeof(obj) === 'object' && obj.join === undefined) {
+    for (var prop in obj) {
+      string.push(convertToText(obj[prop]));
+    }
+  } else if (_typeof(obj) === 'object' && !(obj.join === undefined)) {
+    for (var _prop in obj) {
+      string.push(convertToText(obj[_prop]));
+    }
+  } else if (typeof obj === 'function') {} else if (typeof obj === 'string') {
+    string.push(obj);
+  }
+  return string.join('<br />');
+}
+var app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)(_Application_vue__WEBPACK_IMPORTED_MODULE_2__["default"]);
+app.config.globalProperties.appVars = window.fluentFrameworkAdmin;
+app.mixin({
+  data: function data() {
+    return {
+      Storage: _Bits_Storage__WEBPACK_IMPORTED_MODULE_4__["default"]
+    };
+  },
+  methods: {
+    $get: _Bits_Rest_js__WEBPACK_IMPORTED_MODULE_3__["default"].get,
+    $post: _Bits_Rest_js__WEBPACK_IMPORTED_MODULE_3__["default"].post,
+    $put: _Bits_Rest_js__WEBPACK_IMPORTED_MODULE_3__["default"].put,
+    $del: _Bits_Rest_js__WEBPACK_IMPORTED_MODULE_3__["default"]["delete"],
+    formatNumber: function formatNumber(amount) {
+      var hideEmpty = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+      if (!amount && hideEmpty) {
+        return '';
+      }
+      if (!amount) {
+        amount = '0';
+      }
+      return new Intl.NumberFormat('en-US').format(amount);
+    },
+    $changeTitle: function $changeTitle(title) {
+      jQuery('head title').text(title + ' - FluentCart');
+    },
+    $handleError: function $handleError(response) {
+      var errorMessage = '';
+      if (typeof response === 'string') {
+        errorMessage = response;
+      } else if (response && response.message) {
+        errorMessage = response.message;
+      } else {
+        errorMessage = convertToText(response);
+      }
+      if (!errorMessage) {
+        errorMessage = 'Something is wrong!';
+      }
+      this.$notify({
+        type: 'error',
+        title: 'Error',
+        message: errorMessage,
+        dangerouslyUseHTMLString: true
+      });
+    }
+  }
+});
+app.config.globalProperties.$notify = element_plus__WEBPACK_IMPORTED_MODULE_6__.ElNotification;
+app.config.globalProperties.$confirm = element_plus__WEBPACK_IMPORTED_MODULE_7__.ElMessageBox.confirm;
+var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_8__.createRouter)({
+  routes: _routes__WEBPACK_IMPORTED_MODULE_1__.routes,
+  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_8__.createWebHashHistory)()
+});
+app.use(router);
+app.use(element_plus__WEBPACK_IMPORTED_MODULE_9__.ElLoading);
+app.use(_store__WEBPACK_IMPORTED_MODULE_5__["default"]);
+app.use(_soerenmartius_vue3_clipboard__WEBPACK_IMPORTED_MODULE_10__.VueClipboard);
+app.mount('#fluent-framework-app');
+router.afterEach(function (to, from) {
+  var activeMenu = to.meta.active_menu;
+  jQuery('.fframe_menu li').removeClass('active_item');
+  jQuery('.fframe_menu li.fframe_item_' + activeMenu).addClass('active_item');
+  jQuery('.toplevel_page_fluent_frame li').removeClass('current'); // change fluent_frame with your plugin slug
+  jQuery('.toplevel_page_fluent_frame li.fluent_frame_' + activeMenu).addClass('current'); // change fluent_frame with your plugin slug
+
+  if (to.meta.title) {
+    jQuery('head title').text(to.meta.title + ' - Fluent Framework'); // Change it with your app name
+  }
+});
+})();
+
 /******/ })()
 ;

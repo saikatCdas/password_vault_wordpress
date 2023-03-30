@@ -38,7 +38,7 @@ class VaultController extends Controller
     public function store( VaultRequest $request)
     {
         try{
-            // Validate form data
+            // return $request->sanitize();
             return $this->response(Vault::createNewItem($request->sanitize()));
 
         } catch (\Exception $e){

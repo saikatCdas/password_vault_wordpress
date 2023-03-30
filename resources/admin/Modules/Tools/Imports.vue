@@ -5,7 +5,7 @@
             <hr class="mt-4">
         </div>
         <form enctype="multipart/form-data" ref="importFormRef"  id="upload_csv_form" class="mt-6 space-y-6 py-2 px-3">
-            <div class="flex flex-col  text-gray-600 space-y-2">
+            <div class="flex flex-col text-gray-600 space-y-2">
                 <input type="hidden" name="action" value="wppayform_global_tools"/>
                 <input type="hidden" name="route" value="upload_form"/>
                 <label class="  text-lg ">Choose a csv file</label>
@@ -28,7 +28,7 @@
     const showUploadButton = ref(false);
     function submitFile (event){
         showUploadButton.value = false;
-    // Get the file from the input
+        // Get the file from the input
         const file = fileInput.value.files[0];
     
         // Checking Extension
@@ -40,15 +40,7 @@
                     message: "Please select a csv file !! ",
                 });
             return;
-        }
-        // Create a new FormData object and append the file
-        // const formData = new FormData()
-        // formData.append('csv_file', file)
-        // let query = {
-        //     _wpnonce: window.fluentFrameworkAdmin.rest.nonnce
-        // };
-        // var data = new URLSearchParams(query)
-        // const data = 
+        } 
         store.dispatch('import', new FormData(jQuery('#upload_csv_form')[0]))
             .then(() => {
                 store.commit("notify", {
