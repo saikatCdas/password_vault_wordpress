@@ -12,7 +12,6 @@ use FluentPlugin\Framework\Validator\Validator;
 
 
 
-
 class VaultController extends Controller
 {
 
