@@ -23,6 +23,11 @@ class DependencyHandler
             return $builder->render();
         });
 
+        add_shortcode('fp_vault', function () {
+            $builder = new \FluentPlugin\App\Modules\Builder\Vault();
+            return $builder->render();
+        });
+
     }
 
     

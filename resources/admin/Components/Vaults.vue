@@ -218,7 +218,7 @@ watchEffect(()=>folders.value);
 
 
 // if function success
-function onSuccess(){
+function onSuccess(){ 
     loading.value = false;
     vaultItems.value = store.state.vaultItems;
     paginationLinks.value = store.state.paginationLinks;

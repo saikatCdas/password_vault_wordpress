@@ -41,10 +41,11 @@ class Vault extends Model
                 $vaultItems = Vault::where('user_id', $current_user_id)->where('category', ucfirst($parts[1]))->paginate(20);
             }
         }else{
-            if($parts[1] === "null"){
+            if($parts[1] === "No Folder"){
                 $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', null)->paginate(20);
             }else{
-                $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', $parts[1])->paginate(20);
+                return $folderId = (new FolderTools())->getFolderId($parts[1]);
+                $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', $folderId )->paginate(20);
             }
         }
 
@@ -200,7 +201,7 @@ class Vault extends Model
 
                 if(isset($credential['folder_name'])){
                     // if request has folder
-                    $credential['folder_id'] = (new Vault())->getFolderId($credential['folder_name']);
+                    $credential['folder_id'] = (new FolderTools())->getFolderId($credential['folder_name']);
                 }elseif (isset($credential['folder_id'])) {
                     // if request has folder_id
                     $folderId = Folder::whereId($credential['folder_id'])->exists();
