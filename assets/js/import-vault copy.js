@@ -1,9 +1,11 @@
-
-  jQuery('#import-button').click( function(event) {
+jQuery(document).ready(function() {
+ 
+  jQuery('#upload_csv_form').submit(function(event) {
+    console.log('hello form import-vault');
     event.preventDefault(); // Prevent the form from submitting normally
     // Get the file input element
-    console.log('hald;flj;adj;f');
     var fileInput = jQuery('input[name="import_file"]')[0];
+    console.log('hald;flj;adj;f')
     
     // Get the selected file
     var file = fileInput.files[0];
@@ -31,7 +33,6 @@
       }
     });
 
-    return false; // Prevent the form from submitting normally
   });
 
   function checkingFileExtension(file){
@@ -40,3 +41,5 @@
         return true;
     }
   }
+  
+})

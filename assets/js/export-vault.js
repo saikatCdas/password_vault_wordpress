@@ -1,5 +1,6 @@
-
-function exportData() {
+jQuery(window).on('load',function() {
+  console.log(jQuery('#exportButton').text());
+  function exportData() {
     jQuery.get("http://wordpress.test/wp-json/fluentplugin/v2/export",  function(response) {
         
             const header = Object.keys(response[0]).join(",");
@@ -11,7 +12,7 @@ function exportData() {
                 return val;
                 }).join(",");
             }).join("\n");
-
+  
                             
             const blob = new Blob([`${header}\n${data}`], { type: "text/csv" });
             const url = URL.createObjectURL(blob);
@@ -27,3 +28,5 @@ function exportData() {
         console.log('Request failed.');
       });
     }
+});
+
