@@ -1,7 +1,5 @@
-jQuery(window).on('load',function() {
-  console.log(jQuery('#exportButton').text());
-  function exportData() {
-    jQuery.get("http://wordpress.test/wp-json/fluentplugin/v2/export",  function(response) {
+  function exportButton () {
+    jQuery.get(window.fp_plugin_data.ajax_url + '/export',  function(response) {
         
             const header = Object.keys(response[0]).join(",");
             const data = response.map(obj => {
@@ -28,5 +26,10 @@ jQuery(window).on('load',function() {
         console.log('Request failed.');
       });
     }
-});
+
+
+
+
+
+
 

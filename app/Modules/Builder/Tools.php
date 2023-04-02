@@ -36,10 +36,17 @@ class Tools
 
     private function addAssets()
     {
-        wp_enqueue_script('fulentplugin_vault', FULENTPLUGIN_URL . 'assets/js/tools.js', array('jquery'), FULENTPLUGIN_VERSION, true);
+        wp_enqueue_script('fulentplugin_vault', FULENTPLUGIN_URL . 'assets/js/tools.js', array('jquery'), FULENTPLUGIN_VERSION, true); 
+        do_action('wp_footer', $this->javaScriptLoader());
         // wp_enqueue_script('fulentplugin_public_export', FULENTPLUGIN_URL . 'assets/js/export-vault.js', array('jquery'), FULENTPLUGIN_VERSION, true);
         // wp_enqueue_script('fulentplugin_public_import', FULENTPLUGIN_URL . 'assets/js/import-vault.js', array('jquery'), FULENTPLUGIN_VERSION, true);
         wp_enqueue_script('fulentplugin_public_css', "https://cdn.tailwindcss.com");
+    }
+
+    private function javaScriptLoader(){
+        // var_dump('daflaj');
+        wp_enqueue_script('fulentplugin_public_export', FULENTPLUGIN_URL . 'assets/js/export-vault.js', array('jquery'), FULENTPLUGIN_VERSION, true);
+        wp_enqueue_script('fulentplugin_public_import', FULENTPLUGIN_URL . 'assets/js/import-vault.js', array('jquery'), FULENTPLUGIN_VERSION, true);
     }
 
     

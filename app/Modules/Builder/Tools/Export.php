@@ -15,10 +15,15 @@ class Export
                     <hr class="mt-4">
                 </div>
                 <div class="mt-4">
-                    <button onclick="exportData()" id="exportButton" class="py-2 px-3 text-lg rounded-md bg-emerald-500 hover:bg-emerald-600 text-white">Export Data</button>
+                    <button onclick="exportButton()" class="py-2 px-3 text-lg rounded-md bg-emerald-500 hover:bg-emerald-600 text-white">Export Data</button>
+                    
+                    <!-- <button onclick="myFunction()">Click me</button> -->
                 </div>
                 <p class="p"></p>
             </div>
+            <script>
+
+</script>
         <?php
         $form = ob_get_clean();
 

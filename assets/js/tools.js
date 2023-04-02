@@ -14,7 +14,7 @@ jQuery(document).ready( function () {
             success: function(data) {
             // Append the class HTML to the container element
             jQuery('.php-class-container').html(data);
-            myMethod(type);
+            // myMethod(type);
             },
             error: function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
@@ -33,7 +33,7 @@ jQuery(document).ready( function () {
     function myMethod(type) {
         if(type == 'Exports'){
             console.log('hello world');
-            wp_enqueue_script( 'my-script', '/Users/authlab/Documents/projects/wordpress/wp-content/plugins/FluentPlugin/assets/js/export-vault.js', array( 'jquery' ), '1.0', true );
+            // wp_enqueue_script( 'my-script', '/Users/authlab/Documents/projects/wordpress/wp-content/plugins/FluentPlugin/assets/js/export-vault.js', array( 'jquery' ), '1.0', true );
         }
       }
 
@@ -49,7 +49,7 @@ jQuery(document).ready( function () {
                 gettingToolsComponent(jQuery(this).text());
                 
             }
-          
+           
           });
     });
 

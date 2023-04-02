@@ -51,7 +51,8 @@ add_action( 'wp_ajax_nopriv_my_ajax_action', 'my_ajax_handler' );
 function my_ajax_handler() {
     switch ($_POST['type']) {
         case 'Generator':
-            wp_send_json((new PasswordGenerator)->render());
+          // wp_enqueue_script('fulentplugin_public_export', FULENTPLUGIN_URL . 'assets/js/export-vault.js', array('jquery'), FULENTPLUGIN_VERSION, true);
+          wp_send_json((new PasswordGenerator)->render());
           break;
 
         case 'Imports':
