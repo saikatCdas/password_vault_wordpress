@@ -4,6 +4,7 @@
 use FluentPlugin\App\Modules\Builder\Tools\PasswordGenerator;
 use FluentPlugin\App\Modules\Builder\Tools\Import;
 use FluentPlugin\App\Modules\Builder\Tools\Export;
+use FluentPlugin\App\Http\Controllers\VaultController;
 
 /**
  * All registered action's handlers should be in app\Hooks\Handlers,
@@ -70,4 +71,10 @@ function tool_page_component_handler() {
           return 'defalut';
       }
 }
+
+
+// tool page component handler
+$exportVault = new VaultController();
+add_action( 'wp_ajax_fp_export_vault', array($exportVault, 'export') );
+add_action( 'wp_ajax_nopriv_fp_export_vault', array($exportVault, 'export') );
 

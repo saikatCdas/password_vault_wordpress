@@ -145,10 +145,11 @@ class VaultController extends Controller
      * @return void
      */
 
-     public function export(Request $request)
+     public function export()
      {
          try{
-            return $this->response(Vault::exportVaultItems());
+            wp_send_json($this->response(Vault::exportVaultItems()));
+            // return $this->response(Vault::exportVaultItems());
         }catch (\Exception $e){
             return $this->sendError([
                 'message' => $e->getMessage()
@@ -162,7 +163,7 @@ class VaultController extends Controller
      * @param Request $request
      * @return void
      */
-    public function import(Request $request)
+    public function import()
     {
         try{
             return $this->response(Vault::importVaultItems());
