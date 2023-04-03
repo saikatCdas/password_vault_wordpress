@@ -47,11 +47,11 @@ add_action( 'wp_enqueue_scripts', 'fp_tools_enqueue_scripts' );
 
 
 
-// ajax request
-add_action( 'wp_ajax_my_ajax_action', 'my_ajax_handler' );
-add_action( 'wp_ajax_nopriv_my_ajax_action', 'my_ajax_handler' );
+// tool page component handler
+add_action( 'wp_ajax_tool_page_component', 'tool_page_component_handler' );
+add_action( 'wp_ajax_nopriv_tool_page_component', 'tool_page_component_handler' );
 
-function my_ajax_handler() {
+function tool_page_component_handler() {
     switch ($_POST['type']) {
         case 'Generator':
           wp_send_json((new PasswordGenerator)->render());
