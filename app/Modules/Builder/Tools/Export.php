@@ -22,7 +22,6 @@ class Export
             </div>
         <?php
         $form = ob_get_clean();
-        // $this->addAssets();
 
         return apply_filters('fluentForm/rendered_form_html',  $form);
     }
