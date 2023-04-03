@@ -14,7 +14,17 @@ jQuery(document).ready( function () {
             success: function(data) {
             // Append the class HTML to the container element
             jQuery('.php-class-container').html(data);
-            myMethod(type);
+
+            if(type === 'Generator'){
+                jQuery.getScript(window.fp_plugin_data.plugin_path + 'assets/js/tools/password-generator.js', function() {
+                  });
+            } else if(type === 'Exports'){
+                jQuery.getScript(window.fp_plugin_data.plugin_path + 'assets/js/tools/export-vault.js', function() {
+                  });
+            } else if(type === 'Imports'){
+                jQuery.getScript(window.fp_plugin_data.plugin_path + 'assets/js/tools/import-vault.js', function() {
+                  });
+            }
             },
             error: function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
@@ -30,28 +40,18 @@ jQuery(document).ready( function () {
                 <hr>`;
     }
 
-    function myMethod(type) {
-        if(type == 'Exports'){
-            console.log('hello world');
-            wp_enqueue_script( 'my-script', '/Users/authlab/Documents/projects/wordpress/wp-content/plugins/FluentPlugin/assets/js/export-vault.js', array( 'jquery' ), '1.0', true );
-        }
-      }
-
-
     jQuery.each(toolMenu, function( index, value ) {
         jQuery('#tool-menu-button').append(addToolMenu(value));
-
-        jQuery('#tool-menu-button').find('button').each(function() {
-            // loading default class for page loaded
-            if(jQuery(this).text()== 'Generator'){
-                jQuery(this).removeClass('text-gray-500');
-                jQuery(this).addClass('text-blue-700 text-lg font-medium');
-                gettingToolsComponent(jQuery(this).text());
-                
-            }
-          
-          });
     });
+
+    //// loading default class for page loaded
+    jQuery('#tool-menu-button').find('button').each(function() {
+        if((jQuery(this).text()== 'Generator' )){
+            jQuery(this).removeClass('text-gray-500');
+            jQuery(this).addClass('text-blue-700 text-lg font-medium');
+            gettingToolsComponent(jQuery(this).text());
+        }
+      });
 
     // changing the class on button click
     jQuery('#tool-menu-button').find(':button').on('click', function(){
@@ -65,5 +65,4 @@ jQuery(document).ready( function () {
         
     
 })
-
 

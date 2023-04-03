@@ -36,22 +36,25 @@ $app->addAction('fluentplugin_loaded', function ($app) {
 
 // localaization of script
 function fp_tools_enqueue_scripts() {
-    wp_enqueue_script( 'fp-tools-js', plugins_url( 'wp-content/plugins/FluentPlugin/assets/js/tools.js', __FILE__ ), array( 'jquery' ), '1.0', true );
-  
+    wp_enqueue_script('fp-tools-js', FULENTPLUGIN_URL . 'assets/js/tools.js', array('jquery'), FULENTPLUGIN_VERSION, true);
+    wp_enqueue_script('fulentplugin_public_css', "https://cdn.tailwindcss.com");
     wp_localize_script( 'fp-tools-js', 'fp_plugin_data', array(
       'ajax_url' => admin_url('admin-ajax.php'),
+      'plugin_path' => FULENTPLUGIN_URL
     ));
   }
 add_action( 'wp_enqueue_scripts', 'fp_tools_enqueue_scripts' );
 
 
+
+// ajax request
 add_action( 'wp_ajax_my_ajax_action', 'my_ajax_handler' );
 add_action( 'wp_ajax_nopriv_my_ajax_action', 'my_ajax_handler' );
 
 function my_ajax_handler() {
     switch ($_POST['type']) {
         case 'Generator':
-            wp_send_json((new PasswordGenerator)->render());
+          wp_send_json((new PasswordGenerator)->render());
           break;
 
         case 'Imports':
@@ -59,6 +62,7 @@ function my_ajax_handler() {
             break;
 
         case 'Exports':
+            // add_action( 'wp_enqueue_scripts', 'fp_vault_export' );
             wp_send_json((new Export)->render());
             break;
 
@@ -66,5 +70,4 @@ function my_ajax_handler() {
           return 'defalut';
       }
 }
-
 
