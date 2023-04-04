@@ -49,8 +49,8 @@ add_action( 'wp_enqueue_scripts', 'fp_tools_enqueue_scripts' );
 
 
 // tool page component handler
-add_action( 'wp_ajax_tool_page_component', 'tool_page_component_handler' );
-add_action( 'wp_ajax_nopriv_tool_page_component', 'tool_page_component_handler' );
+add_action( 'wp_ajax_fp_tool_page_component', 'tool_page_component_handler' );
+add_action( 'wp_ajax_nopriv_fp_tool_page_component', 'tool_page_component_handler' );
 
 function tool_page_component_handler() {
     switch ($_POST['type']) {
@@ -74,7 +74,13 @@ function tool_page_component_handler() {
 
 
 // tool page component handler
-$exportVault = new VaultController();
-add_action( 'wp_ajax_fp_export_vault', array($exportVault, 'export') );
-add_action( 'wp_ajax_nopriv_fp_export_vault', array($exportVault, 'export') );
+$vaultController = new VaultController();
 
+// export vault data from database
+add_action( 'wp_ajax_fp_export_vault', array($vaultController, 'export') );
+add_action( 'wp_ajax_nopriv_fp_export_vault', array($vaultController, 'export') );
+
+
+// import data into the vault
+add_action( 'wp_ajax_fp_import_vault', array($vaultController, 'import') );
+add_action( 'wp_ajax_nopriv_fp_import_vault', array($vaultController, 'import') );

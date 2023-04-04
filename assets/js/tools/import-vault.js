@@ -15,21 +15,26 @@
     // Create a FormData object to send the file
     var formData = new FormData();
     formData.append('import_file', file);
-    
-    // Send the AJAX request
+
+    // append action
+    formData.append('action', 'fp_import_vault');
+
+    // sending the ajax request to the backend using action
     jQuery.ajax({
-      url: "http://wordpress.test/wp-json/fluentplugin/v2/import",
-      type: 'POST',
+      url: window.fp_plugin_data.ajax_url,
+      type: "POST",
+      dataType: "json",
       data: formData,
-      contentType: false,
       processData: false,
-      success: function(response) {
-        console.log(response);
+      contentType: false,
+      success: function(data) {
+          console.log(data);
       },
       error: function(jqXHR, textStatus, errorThrown) {
-        console.log(errorThrown);
+          console.log(textStatus, errorThrown);
       }
     });
+   
 
     return false; // Prevent the form from submitting normally
   });

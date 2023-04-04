@@ -149,9 +149,8 @@ class VaultController extends Controller
      {
          try{
             wp_send_json(Vault::exportVaultItems());
-            // return $this->response(Vault::exportVaultItems());
         }catch (\Exception $e){
-            return $this->sendError([
+            wp_send_json_error([
                 'message' => $e->getMessage()
             ], 423);
         }
@@ -166,9 +165,10 @@ class VaultController extends Controller
     public function import()
     {
         try{
-            return $this->response(Vault::importVaultItems());
+
+            wp_send_json(Vault::importVaultItems());
         }catch (\Exception $e){
-            return $this->sendError([
+            wp_send_json_error([
                 'message' => $e->getMessage()
             ], 423);
         }

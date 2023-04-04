@@ -8,7 +8,7 @@ jQuery(document).ready( function () {
             type: "POST",
             dataType: "json",
             data: {
-            action: "tool_page_component",
+            action: "fp_tool_page_component",
             type: type
             },
             success: function(data) {
