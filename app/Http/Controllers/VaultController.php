@@ -148,7 +148,7 @@ class VaultController extends Controller
      public function export()
      {
          try{
-            wp_send_json($this->response(Vault::exportVaultItems()));
+            wp_send_json(Vault::exportVaultItems());
             // return $this->response(Vault::exportVaultItems());
         }catch (\Exception $e){
             return $this->sendError([
