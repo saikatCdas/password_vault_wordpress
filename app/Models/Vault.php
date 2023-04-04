@@ -27,15 +27,14 @@ class Vault extends Model
         //  getting current user id
         $vaults = new Vault();
         $current_user_id = $vaults->authUserId();
-
-        // return $type;
         
         // exploding the string
         $parts = explode("=", $decodedData);
 
+        // return $parts;
         //checking is the request for category or folder
         if($parts[0] === "category"){
-            if($parts[1] === 'all'){
+            if(($parts[1] === 'all') || ($parts[1] === 'All items')){
                 $vaultItems = Vault::where('user_id', $current_user_id)->paginate(20);
             } else{
                 $vaultItems = Vault::where('user_id', $current_user_id)->where('category', ucfirst($parts[1]))->paginate(20);
@@ -44,7 +43,7 @@ class Vault extends Model
             if($parts[1] === "No Folder"){
                 $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', null)->paginate(20);
             }else{
-                return $folderId = (new FolderTools())->getFolderId($parts[1]);
+                $folderId = (new FolderTools())->getFolderId($parts[1]);
                 $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', $folderId )->paginate(20);
             }
         }

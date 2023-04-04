@@ -1,6 +1,6 @@
 <?php
 
-namespace FluentPlugin\App\Modules\Builder;
+namespace FluentPlugin\App\Modules\Builder\Vault;
 
 class AddVaultItem 
 {
@@ -8,9 +8,10 @@ class AddVaultItem
     {
          ob_start()
         ?>
-            <div>
+            <div id="add-menu-item-modal" class="hidden">
                 <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true"> 
-                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity">                                
+                    </div>
 
                     <div class="fixed inset-0 z-50 overflow-y-auto min-w-full" >
                         <div class="flex items-end justify-center min-h-screen px-4 text-center md:items-center sm:block sm:p-0 ">
@@ -25,6 +26,11 @@ class AddVaultItem
                             >
                                 <div class="flex items-center justify-between space-x-4">
                                     <h1 class="text-xl font-medium text-gray-800 ">Add Item</h1>
+                                    <button id="close-add-item-modal" class="text-gray-600 focus:outline-none hover:text-gray-700">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </button>
                                 </div>
 
                                 <form class="mt-5" id="create-vault">
@@ -71,14 +77,8 @@ class AddVaultItem
             </div>
         <?php
         $form = ob_get_clean();
-        $this->addAssets();
 
         return apply_filters('fluentForm/rendered_form_html',  $form);
     }
 
-    private function addAssets()
-    {
-        wp_enqueue_script('fulentplugin_public', FULENTPLUGIN_URL . 'assets/js/add-vault-item.js', array('jquery'), FULENTPLUGIN_VERSION, true);
-        wp_enqueue_script('fulentplugin_public_css', "https://cdn.tailwindcss.com");
-    }
 }

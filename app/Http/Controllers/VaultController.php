@@ -21,12 +21,12 @@ class VaultController extends Controller
      * @param [type] $type
      * @return void
      */
-    public function getVaultItems( $type)
+    public function getVaultItems()
     {
         try{
-            return $this->response(Vault::getInfo($type)) ; 
+            wp_send_json(Vault::getInfo($_GET['encodedData'])) ; 
         } catch (\Exception $e){
-            return $this->sendError([
+            wp_send_json_error([
                 'message' => $e->getMessage()
             ], 423);
         }
@@ -38,11 +38,9 @@ class VaultController extends Controller
     public function store( VaultRequest $request)
     {
         try{
-            // return $request->sanitize();
-            return $this->response(Vault::createNewItem($request->sanitize()));
-
+            wp_send_json(Vault::createNewItem($request->sanitize()));
         } catch (\Exception $e){
-            return $this->sendError([
+            wp_send_json_error([
                 'message' => $e->getMessage()
             ], 423);
         }

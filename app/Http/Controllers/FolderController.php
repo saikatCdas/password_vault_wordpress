@@ -14,12 +14,18 @@ class FolderController extends Controller
 
     public function allFolder()
     {
-        // Gettting the currrent user id
-        $current_user_id = apply_filters( 'determine_current_user', false );
+        try {
+             // Gettting the currrent user id
+            $current_user_id = apply_filters( 'determine_current_user', false );
 
-        $user_id = wp_set_current_user( $current_user_id )->ID;
+            $user_id = wp_set_current_user( $current_user_id )->ID;
 
-        return $this->response(Folder::where('user_id', $user_id)->get());
+            wp_send_json(Folder::where('user_id', $user_id)->get());
+        } catch (\Exception $e){
+            wp_send_json_error([
+                'message' => $e->getMessage()
+            ], 423);
+        }
     }
 
     
@@ -32,9 +38,9 @@ class FolderController extends Controller
     public function store(FolderRequest $request)
     {
         try {
-            return $this->response(Folder::createFolder($request->sanitize()));
+            wp_send_json(Folder::createFolder($request->sanitize()));
         } catch (\Exception $e){
-            return $this->sendError([
+            wp_send_json_error([
                 'message' => $e->getMessage()
             ], 423);
         }
