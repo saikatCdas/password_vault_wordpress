@@ -28,7 +28,7 @@
       processData: false,
       contentType: false,
       success: function(data) {
-          console.log(data);
+          jQuery('#csv-file-input').val('');          ;
       },
       error: function(jqXHR, textStatus, errorThrown) {
           console.log(textStatus, errorThrown);
