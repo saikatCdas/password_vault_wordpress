@@ -2,6 +2,8 @@ jQuery(document).ready(function() {
   
   // open add vault modal 
   jQuery('#add-item-modal-button').click(function(){
+    jQuery('#manage-vault-header-name').text('Add Item');
+    jQuery('#manage-vault-submit-button').text('Create Item');
     jQuery('#add-menu-item-modal').show();
   });
 
@@ -12,6 +14,7 @@ jQuery(document).ready(function() {
     jQuery('#vault-items-show-div').hide();
   }
   
+
   // loading vault item on page load
   showInititalElement();
   // getting the initial vault items from database
@@ -92,6 +95,10 @@ jQuery(document).ready(function() {
           error: function(jqXHR, textStatus, errorThrown) {
               console.error(textStatus + ': ' + errorThrown);
           }
+      }).then(()=>{
+        jQuery('.edit-vault-item-button').click(function(){
+          editVautlItem(jQuery(this).attr('id'));
+        })
       });
 
     }
@@ -107,7 +114,7 @@ jQuery(document).ready(function() {
           jQuery('#vault-items-show-div').empty();
           jQuery.each(items, function(index, item) {
             // adding items name button in an array
-            jQuery('#vault-items-show-div').prepend(vaultItemShow(item));
+            jQuery('#vault-items-show-div').append(vaultItemShow(item));
         });
         } else{
           jQuery('#no-content-found-in-vault').show();
@@ -123,7 +130,99 @@ jQuery(document).ready(function() {
     }
 
 
-    // edit vault element
+    // search item 
+    let timeout = null;
+    jQuery('#search-form').find('#search').on( 'input', function (e){
+      e.preventDefault();
+      let searchInp = jQuery(this).val();
+      clearTimeout(timeout);
+      timeout = setTimeout(function () {
+          search({searchInp: searchInp})
+      }, 1000);
+    });
+
+    // search in database
+    function search(data){
+      console.log(data);
+        jQuery.ajax({
+            url: window.fp_plugin_data.rest_url + '/search',  
+            type: 'GET',
+            dataType: 'json',
+            data: data,
+            success: function(response) {
+              showVaultItemsOnFront(response.data);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error(textStatus + ': ' + errorThrown);
+            }
+        })
+    }
+
+    jQuery('#search-form').on('submit', function (e){
+      e.preventDefault();
+    });
+
+    // Edit Vault Item
+    function editVautlItem(id){
+      jQuery.ajax({
+        url: window.fp_plugin_data.rest_url + '/get-item',  
+        type: 'GET',
+        dataType: 'json',
+        data: {id:id},
+        success: function(response) {
+          showItemInEditForm(response);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error(textStatus + ': ' + errorThrown);
+        }
+    })
+    }
+    
+
+    // show item in edit form 
+    function showItemInEditForm(item){
+      jQuery('#manage-vault-header-name').text('Edit Item');
+      jQuery('#manage-vault-submit-button').text('Update');
+      
+      data = {"id":378, "folder_id":"6","user_id":"1"}
+
+      jQuery('#manage-vault #category').val(item.category);
+      jQuery('#manage-vault #folder').val(item.folder);
+      jQuery('#manage-vault #name').val(item.name);
+      jQuery('#manage-vault #user_name').val(item.user_name);
+      jQuery('#manage-vault #email').val(item.email);
+      jQuery('#manage-vault #password').val(item.password);
+      jQuery('#manage-vault #url').val(item.url);
+      jQuery('#manage-vault #card_holder_name').val(item.card_holder_name);
+      jQuery('#manage-vault #card_number').val(item.card_number);
+      jQuery('#manage-vault #card_expiration_date').val(item.card_expiration_date);
+      jQuery('#manage-vault #card_security_code').val(item.card_security_code);
+      jQuery('#manage-vault #notes').val(item.notes);
+      jQuery('#manage-vault #user_id').val(item.user_id);
+      jQuery('#manage-vault #id').val(item.id);
+      switch (item.category) {
+        case 'Login':
+          jQuery('.login-information-component').show();
+          jQuery('.card-information-component').hide();
+          break;
+        
+        case 'Card':
+          jQuery('.login-information-component').hide();
+          jQuery('.card-information-component').show();
+          break;
+        
+        case 'Secure note':
+          jQuery('.login-information-component').hide();
+          jQuery('.card-information-component').hide();
+
+        default:
+          break;
+      }
+
+
+
+      jQuery('#add-menu-item-modal').show();
+    }
 
     // adding folder name into button
     function folderName(name){
@@ -142,10 +241,11 @@ jQuery(document).ready(function() {
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-xs">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 3.03v.568c0 .334.148.65.405.864l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 01-1.161.886l-.143.048a1.107 1.107 0 00-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 01-1.652.928l-.679-.906a1.125 1.125 0 00-1.906.172L4.5 15.75l-.612.153M12.75 3.031a9 9 0 00-8.862 12.872M12.75 3.031a9 9 0 016.69 14.036m0 0l-.177-.529A2.25 2.25 0 0017.128 15H16.5l-.324-.324a1.453 1.453 0 00-2.328.377l-.036.073a1.586 1.586 0 01-.982.816l-.99.282c-.55.157-.894.702-.8 1.267l.073.438c.08.474.49.821.97.821.846 0 1.598.542 1.865 1.345l.215.643m5.276-3.67a9.012 9.012 0 01-5.276 3.67m0 0a9 9 0 01-10.275-4.835M15.75 9c0 .896-.393 1.7-1.016 2.25" />
       </svg>
-      <a href="?name=`+ item.name +`&&id=`+ item.id +`" class="text-sky-600 hover:text-sky-700 hover:underline cursor-pointer edit-vault-item">` + item.name + `</a>
+      <button type="button" id=`+ item.id +` class="text-sky-600 hover:text-sky-700 hover:underline cursor-pointer edit-vault-item-button">` + item.name + `</button>
   </div>
   <hr>`;
     }
+
 
   });
 

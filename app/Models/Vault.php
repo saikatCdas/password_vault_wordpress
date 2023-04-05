@@ -80,6 +80,7 @@ class Vault extends Model
      * @return void
      */
     public static function updateVaultItem ($data){
+        
         // given an array to check is if given data has more key than table item
         $arrayValue = array_flip(array('user_id','folder_id', 'category', 'email', 'name', 'user_name', 'password', 'url', 'card_holder_name', 'card_number', 'card_expiration_date', 'card_security_code', 'notes'));
 
@@ -88,11 +89,13 @@ class Vault extends Model
         // if request has folder
         $credential['folder_id'] = (new FolderTools())->getFolderId($data['folder']);
 
-        $credential['user_id'] = (new Vault())->authUserId();
+        if (intval($credential['user_id']) === (new Vault())->authUserId()){
+            // update vault
+            Vault::whereId($data['id'])->update($credential);
+            return true;
+        }
 
-        // update vault
-        Vault::whereId($data['id'])->update($credential);
-        return true;
+        return false;
     }
 
 
@@ -144,7 +147,8 @@ class Vault extends Model
      * 
      * @return void
      */
-    public static function searchItems ($key){
+    public static function searchItems ($searchInp){
+        $key = $searchInp['searchInp'];
         $result = Vault::latest()->where('user_id',(new Vault())->authUserId())
         ->where('name', 'like', '%' . $key . '%')
         ->orWhere('email', 'like', '%' . $key . '%')

@@ -9,8 +9,7 @@ use FluentPlugin\App\Http\Requests\VaultRequest;
 use FluentPlugin\App\Models\User;
 use Exception;
 use FluentPlugin\Framework\Validator\Validator;
-
-
+use LDAP\Result;
 
 class VaultController extends Controller
 {
@@ -58,7 +57,7 @@ class VaultController extends Controller
             // Validate form data
             $vaultIntiData = $request->sanitize();
 
-            return $this->response(Vault::updateVaultItem($vaultIntiData));
+            wp_send_json(Vault::updateVaultItem($vaultIntiData));
 
         } catch (\Exception $e){
             return $this->sendError([
@@ -91,11 +90,12 @@ class VaultController extends Controller
      * @param [type] $id
      * @return void
      */
-    public function getItemById($id){
+    public function getItemById(Request $request){
         try{
-            return $this->response(Vault::getVaultItemById($id));
+            $id = $request->all();
+            wp_send_json(Vault::getVaultItemById($id['id']));
         } catch (\Exception $e){
-            return $this->sendError([
+            wp_send_json_error([
                 'message' => $e->getMessage()
             ], 423);
         }
@@ -126,12 +126,12 @@ class VaultController extends Controller
      * @param String $searchInp
      * @return void
      */
-    public function search( $searchInp)
+    public function search( Request $request)
     {
         try {
-            return $this->response(Vault::searchItems($searchInp));
+            wp_send_json(Vault::searchItems($request->all()));
         } catch (Exception $e) {
-            return $this->sendError([
+            wp_send_json_error([
                 'message' => $e->getMessage()
             ], 423);
         }
