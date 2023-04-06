@@ -52,6 +52,7 @@ jQuery(document).ready(function(){
               // jQuery(`#${id}`).closest('div').remove();
               jQuery(`.${id}`).remove();
             });
+
           },
           error: function(jqXHR, textStatus, errorThrown) {
               console.error(textStatus + ': ' + errorThrown);
@@ -81,6 +82,7 @@ jQuery(document).ready(function(){
               let option = `<option id="`+ folder.id +`" value="`+ folder.id +`">`+ folder.name +`</option>`
               jQuery(option).insertBefore('#option-no-folder');
             });
+            
           },
           error: function(jqXHR, textStatus, errorThrown) {
             console.error(textStatus + ': ' + errorThrown);

@@ -53,7 +53,7 @@ jQuery(document).ready(function() {
       case 'Create':
         formData = {name : jQuery('#folder-name').val()};
         method = 'POST';
-        
+        url = '/create-folder'
         break;
 
       case 'Change':
