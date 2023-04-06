@@ -38,6 +38,7 @@ class FolderController extends Controller
     public function store(FolderRequest $request)
     {
         try {
+            // wp_send_json($request->sanitize());
             wp_send_json(Folder::createFolder($request->sanitize()));
         } catch (\Exception $e){
             wp_send_json_error([

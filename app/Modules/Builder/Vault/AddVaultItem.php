@@ -70,7 +70,7 @@ class AddVaultItem
 
                                     <div class="mb-4 login-information-component" id="login-password" style="display: none;">
                                         <label for="password" class="block text-md font-semibold text-gray-900 capitalize">Password</label>
-                                        <input autocomplete="password" type="password" id="password" name="password" class="block w-full px-3 py-2 mt-2 text-gray-600 placeholder-gray-400 bg-white border border-gray-300 rounded-md focus:border-indigo-400 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-40" placeholder="Password goes here..." />
+                                        <input autocomplete="password" type="text" id="password" name="password" class="block w-full px-3 py-2 mt-2 text-gray-600 placeholder-gray-400 bg-white border border-gray-300 rounded-md focus:border-indigo-400 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-40" placeholder="Password goes here..." />
                                     </div>
 
                                     <div class="mb-4 login-information-component" id="login-url">

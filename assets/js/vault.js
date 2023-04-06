@@ -1,4 +1,8 @@
+// initial items id for selecting and unselecting item
+var itemsId = [];
+
 jQuery(document).ready(function() {
+  
   
   // open add vault modal 
   jQuery('#add-item-modal-button').click(function(){
@@ -19,6 +23,81 @@ jQuery(document).ready(function() {
   showInititalElement();
   // getting the initial vault items from database
   getVaultItems({category:'all', });
+
+
+  // open the folder modal to create folder 
+  jQuery('#open-folder-modal').click(function(){
+    jQuery('#show-folder-name').hide();
+    jQuery('#folder-modal').show();
+    jQuery('#create-folder-name').show();
+    jQuery('#create-folder-name').prop('required', true);
+    jQuery('#folder-modal-header').text('Create Folder');
+    jQuery('#folder-modal-sumbit-button').text('Create');
+  })
+
+  // create folder in database
+  jQuery('#folder-name-modal').submit(function(e){
+    // preventing default
+    e.preventDefault();
+
+    // serilalize form data
+    // var formData = jQuery('#folder-name-modal').serialize(); 
+    
+    // var f
+    let method ;
+    let formData; 
+    let selectSubmitButton = jQuery('#folder-modal-sumbit-button').text();
+
+    // giving rule for update or create
+    switch(selectSubmitButton){
+      case 'Create':
+        formData = {name : jQuery('#folder-name').val()};
+        method = 'POST';
+        
+        break;
+
+      case 'Change':
+        formData = {
+          folderId: jQuery('#folder-name-select').val(),
+          itemsId
+        };
+        method = 'PUT';
+        url = '/move-folder'
+        break;
+
+      default:
+        return;
+    }
+    // send post rerquest to create folder 
+    jQuery.ajax({
+      url: window.fp_plugin_data.rest_url + url,
+      data: formData,
+      type: method,
+      success: function(response) {
+        jQuery('#folder-modal').hide();
+        if(selectSubmitButton === "Create"){
+          jQuery(folderName(response.name)).insertBefore('.no-folder-button');
+        } else{
+          jQuery.each(itemsId, function(index, id) {
+            // jQuery(`#${id}`).closest('div').remove();
+            jQuery(`.${id}`).remove();
+          });
+        }
+      },
+      error: function(jqXHR, textStatus, errorThrown) {
+          console.log(textStatus, errorThrown);
+      }
+
+    }).then(()=>{
+      getItemByFolder();
+    })
+  })
+
+  // close the folder modal 
+  jQuery('#close-folder-modal').click(function(){
+    // jQuery('#folder-name-select').find('option').not('#option-no-folder').remove();
+    jQuery('#folder-modal').hide();
+  })
 
     // get folder name form folder 
     jQuery.ajax({
@@ -42,24 +121,30 @@ jQuery(document).ready(function() {
         console.error(textStatus + ': ' + errorThrown);
       }
     }).then(()=>{
-        jQuery('#button-container').find("button").on('click', function(){
-
-            // removing class from buttons
-            jQuery('#button-container').find("button").removeClass("text-blue-600");
-            jQuery('.category').removeClass("text-blue-600");
-
-            // adding class to the current button
-            jQuery(this).addClass("text-blue-600");
-
-            // getting the innertext of the button
-            var selectedValue = jQuery(this).find('span').text();
-            showInititalElement();
-            // getting the vaule
-            getVaultItems({folderName: selectedValue });
-            
-        })
+      getItemByFolder();
     });
 
+
+    // getting element by folder
+    function getItemByFolder(){
+      jQuery('#button-container').find("button").on('click', function(){
+
+        // removing class from buttons
+        jQuery('#button-container').find("button").removeClass("text-blue-600");
+        jQuery('.category').removeClass("text-blue-600");
+
+        // adding class to the current button
+        jQuery(this).addClass("text-blue-600");
+
+        // getting the innertext of the button
+        var selectedValue = jQuery(this).find('span').text();
+        showInititalElement();
+        // getting the vaule
+        getVaultItems({folderName: selectedValue });
+        
+    })
+    }
+    // getting element by category
     jQuery('.category').on('click', function(){
         // getting the innertext of the button
         selectedValue = jQuery(this).text();
@@ -74,8 +159,10 @@ jQuery(document).ready(function() {
         getVaultItems({category: selectedValue });
     })
 
+    
     // getting the item from baceknd;
     function getVaultItems(type){
+      itemsId= [];
       let queryString;
 
       queryString = Object.keys(type).map(key => key + '=' + type[key]).join('&');
@@ -98,7 +185,7 @@ jQuery(document).ready(function() {
       }).then(()=>{
 
         // get selected elements id
-        let itemsId = [];
+        
         jQuery('.item-checkbox').on('change', function(){
           let isChecked = jQuery(this).is(':checked');
           if(isChecked){
@@ -109,38 +196,25 @@ jQuery(document).ready(function() {
           } 
         });
 
-        // Deleteing selected items
-        jQuery('#delete-selected-items').click(function(){
-          console.log(itemsId);
-        });
-
-        //moving selected item
-        jQuery('#move-selected-items').click(function(){
-          console.log(itemsId);
-        })
-
-        // selecting all items
-        jQuery('#selecting-all-items').click(function(){
-          itemsId = [];
-          jQuery('.item-checkbox').each(function(){
-            jQuery(this).prop('checked', true);
-            itemsId.push(jQuery(this).val());
-          })
-        })
-
-        // selecting all items
-        jQuery('#unselect-all-items').click(function(){
-          console.log(itemsId);
-          jQuery.each(itemsId, function(index, id) {
-            jQuery(`#${id}`).prop('checked', false);
-            indexOfUncheckdValue = itemsId.indexOf(id)
-          });
-          itemsId = [];
-        })
-
-
         // editing item
         jQuery('.edit-vault-item-button').click(function(){
+          jQuery.ajax({
+            url: window.fp_plugin_data.ajax_url, 
+            type: 'GET',
+            dataType: 'json',
+            data: {
+              action: 'fp_get_folder_items'
+            },
+            success: function(response) {
+              var folderSelect = jQuery('#folder');
+              jQuery.each(response, function(index, folder) {
+                folderSelect.append('<option value="' + folder.name + '">' + folder.name + '</option>');
+              });
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+              console.error(textStatus + ': ' + errorThrown);
+            }
+          });
           editVautlItem(jQuery(this).attr('id'));
         })
 
@@ -189,7 +263,6 @@ jQuery(document).ready(function() {
 
     // search in database
     function search(data){
-      console.log(data);
         jQuery.ajax({
             url: window.fp_plugin_data.rest_url + '/search',  
             type: 'GET',
@@ -229,9 +302,6 @@ jQuery(document).ready(function() {
     function showItemInEditForm(item){
       jQuery('#manage-vault-header-name').text('Edit Item');
       jQuery('#manage-vault-submit-button').text('Update');
-      
-      data = {"id":378, "folder_id":"6","user_id":"1"}
-
       jQuery('#manage-vault #category').val(item.category);
       jQuery('#manage-vault #folder').val(item.folder);
       jQuery('#manage-vault #name').val(item.name);
@@ -266,7 +336,6 @@ jQuery(document).ready(function() {
       }
 
 
-
       jQuery('#add-menu-item-modal').show();
     }
 
@@ -282,16 +351,15 @@ jQuery(document).ready(function() {
 
     // adding vault item into container
     function vaultItemShow(item){
-      return`<div class="flex items-center space-x-5 text-gray-500 pl-5 py-3">
+      return`<div class="flex items-center space-x-5 text-gray-500 pl-5 py-3 `+ item.id +`">
       <input type="checkbox" class="item-checkbox" id=`+ item.id +` name="` +item.id +`" class="rounded w-[16px] h-[16px]" value="` + item.id +`">
       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-xs">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 3.03v.568c0 .334.148.65.405.864l1.068.89c.442.369.535 1.01.216 1.49l-.51.766a2.25 2.25 0 01-1.161.886l-.143.048a1.107 1.107 0 00-.57 1.664c.369.555.169 1.307-.427 1.605L9 13.125l.423 1.059a.956.956 0 01-1.652.928l-.679-.906a1.125 1.125 0 00-1.906.172L4.5 15.75l-.612.153M12.75 3.031a9 9 0 00-8.862 12.872M12.75 3.031a9 9 0 016.69 14.036m0 0l-.177-.529A2.25 2.25 0 0017.128 15H16.5l-.324-.324a1.453 1.453 0 00-2.328.377l-.036.073a1.586 1.586 0 01-.982.816l-.99.282c-.55.157-.894.702-.8 1.267l.073.438c.08.474.49.821.97.821.846 0 1.598.542 1.865 1.345l.215.643m5.276-3.67a9.012 9.012 0 01-5.276 3.67m0 0a9 9 0 01-10.275-4.835M15.75 9c0 .896-.393 1.7-1.016 2.25" />
       </svg>
       <button type="button" id=`+ item.id +` class="text-sky-600 hover:text-sky-700 hover:underline cursor-pointer edit-vault-item-button">` + item.name + `</button>
   </div>
-  <hr>`;
+  <hr class="`+ item.id +`">`;
     }
-
 
   });
 

@@ -27,9 +27,7 @@ class Folder extends Model
 
         $folderName['user_id'] = $user_id;
 
-        Folder::create($folderName);
-
-        return Folder::where('user_id', $user_id)->get();
+        return Folder::create($folderName);
     }
 
 
@@ -46,6 +44,7 @@ class Folder extends Model
         
         // Changing Folder
         $itemIds = $data['itemsId'];
+        // return $itemIds;
         foreach($itemIds as $id){
             $item = Vault::whereId($id)->first();
             $item['folder_id'] = $folderId ? $data['folderId'] : null;

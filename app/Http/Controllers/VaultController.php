@@ -75,9 +75,9 @@ class VaultController extends Controller
     public function destroy($itemId)
     {
         try{
-            return $this->response(Vault::deleteVaultItem($itemId));
+            wp_send_json(Vault::deleteVaultItem($itemId));
         } catch (\Exception $e){
-            return $this->sendError([
+            wp_send_json_error([
                 'message' => $e->getMessage()
             ], 423);
         }
@@ -111,10 +111,10 @@ class VaultController extends Controller
     public function moveFolder(Request $request){
         try{
             $data = $request->all();
-            return $this->response(Folder::changeFolder($data) );
+            wp_send_json(Folder::changeFolder($data) );
 
         }catch (\Exception $e){
-            return $this->sendError([
+            wp_send_json_error([
                 'message' => $e->getMessage()
             ], 423);
         }

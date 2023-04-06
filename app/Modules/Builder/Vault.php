@@ -4,6 +4,7 @@ namespace FluentPlugin\App\Modules\Builder;
 use FluentPlugin\App\Modules\Builder\Vault\ShowVaultItem;
 use FluentPlugin\App\Modules\Builder\Vault\MenuButton;
 use FluentPlugin\App\Modules\Builder\Vault\AddVaultItem;
+use FluentPlugin\App\Modules\Builder\Vault\FolderModal;
 
 class Vault 
 {
@@ -74,14 +75,14 @@ class Vault
                                         Folder
                                     </h3>
                                 </div>
-                                <button type="button" @click="modalOpen = true">
+                                <button type="button" id="open-folder-modal">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                     </svg>
                                 </button>
                             </div>
                             <div class="text-gray-700 " id="button-container">
-                                <button type="button" id="folder-button" class="py-1 px-4 flex items-center justify-start space-x-1 hover:text-blue-300">
+                                <button type="button" id="folder-button" class="py-1 px-4 flex items-center justify-start space-x-1 hover:text-blue-300 no-folder-button">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
                                     </svg>
@@ -111,6 +112,7 @@ class Vault
                     </div>
                 </div>
                 <?php echo (new AddVaultItem())->render() ?>
+                <?php echo (new FolderModal)->render() ?>
             </div>
         <?php
         $form = ob_get_clean();

@@ -8,24 +8,28 @@ jQuery(document).ready(function() {
     var selectedValue = jQuery('#category').val();
     formComponent(selectedValue);
 
-    // get folder
-    jQuery.ajax({
-      url: window.fp_plugin_data.ajax_url, 
-      type: 'GET',
-      dataType: 'json',
-      data: {
-        action: 'fp_get_folder_items'
-      },
-      success: function(response) {
-        var folderSelect = jQuery('#folder');
-        jQuery.each(response, function(index, folder) {
-          folderSelect.append('<option value="' + folder.name + '">' + folder.name + '</option>');
-        });
-      },
-      error: function(jqXHR, textStatus, errorThrown) {
-        console.error(textStatus + ': ' + errorThrown);
-      }
+
+    // get folder information for add item form
+    jQuery('#add-item-modal-button').click(function(){
+      jQuery.ajax({
+        url: window.fp_plugin_data.ajax_url, 
+        type: 'GET',
+        dataType: 'json',
+        data: {
+          action: 'fp_get_folder_items'
+        },
+        success: function(response) {
+          var folderSelect = jQuery('#folder');
+          jQuery.each(response, function(index, folder) {
+            folderSelect.append('<option value="' + folder.name + '">' + folder.name + '</option>');
+          });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          console.error(textStatus + ': ' + errorThrown);
+        }
+      });
     });
+    
 
     // adding form element 
     jQuery('#category').on('change', function() {
@@ -63,8 +67,10 @@ jQuery(document).ready(function() {
       e.preventDefault(); 
       
       let method ;
-      let url ;      // serialize the form data
+      let url ;      
+      // serialize the form data
       var formData = jQuery(this).serialize(); 
+    
       if(jQuery('#manage-vault-submit-button').text() === 'Update'){
         method = "PUT",
         url = '/update-vault'
