@@ -8,7 +8,6 @@ class DependencyHandler
     public function registerShortCodes ()
     {
         // Register the shortcode
-
         add_shortcode('fp_vault', function () {
             $builder = new \FluentPlugin\App\Modules\Builder\Vault();
             return $builder->render();

@@ -7,6 +7,14 @@ jQuery('#exportButton').click(function () {
         action: "fp_export_vault",
         },
         success: function(response) {
+          // console.log();
+          // return
+          // returning if the vault has no items
+          if( Object.keys(response).length === 0){
+            notificationView('error', 'No item found in database!!!');;
+            return;
+          }
+          return
           const header = Object.keys(response[0]).join(",");
           const data = response.map(obj => {
               return Object.values(obj).map(val => {
@@ -16,6 +24,8 @@ jQuery('#exportButton').click(function () {
               return val;
               }).join(",");
           }).join("\n");
+
+          
 
                           
           const blob = new Blob([`${header}\n${data}`], { type: "text/csv" });
