@@ -7,8 +7,6 @@ jQuery('#exportButton').click(function () {
         action: "fp_export_vault",
         },
         success: function(response) {
-          // console.log();
-          // return
           // returning if the vault has no items
           if( Object.keys(response).length === 0){
             notificationView('error', 'No item found in database!!!');;
