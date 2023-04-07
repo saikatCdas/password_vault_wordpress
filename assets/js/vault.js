@@ -185,6 +185,10 @@ jQuery(document).ready(function() {
           success: function(response) {
             if(response.next_page_url || response.prev_page_url){
               pagination(type, response, getVaultItems);
+            } else {
+              jQuery('#pagination-div').hide();
+              jQuery('#pagination-div').removeClass('!flex');
+              jQuery('#pagination-nav').empty();
             }
             showVaultItemsOnFront(response.data);
           },
@@ -283,6 +287,11 @@ jQuery(document).ready(function() {
             success: function(response) {
               if(response.next_page_url || response.prev_page_url){
                 pagination(data, response, search);
+              } else {
+                console.log(response);
+                jQuery('#pagination-div').hide();
+                jQuery('#pagination-div').removeClass('!flex');
+                jQuery('#pagination-nav').empty();
               }
               showVaultItemsOnFront(response.data);
             },
