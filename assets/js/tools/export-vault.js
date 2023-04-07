@@ -14,7 +14,6 @@ jQuery('#exportButton').click(function () {
             notificationView('error', 'No item found in database!!!');;
             return;
           }
-          return
           const header = Object.keys(response[0]).join(",");
           const data = response.map(obj => {
               return Object.values(obj).map(val => {
@@ -33,8 +32,9 @@ jQuery('#exportButton').click(function () {
           const link = document.createElement("a");
           link.setAttribute("href", url);
           link.setAttribute("download", "data.csv");
-          link.click();
-          notificationView('success', 'Data exported successfully!!!');
+          link.click().then(()=>{
+            notificationView('success', 'Data exported successfully!!!');
+          });
         },
         error: function(jqXHR, textStatus, errorThrown) {
         console.log(textStatus, errorThrown);
