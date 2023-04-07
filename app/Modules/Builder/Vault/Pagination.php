@@ -23,11 +23,3 @@ class Pagination
     }
 
 }
-
-// :class="[
-//     link.active
-//     ? ''
-//     : ',
-//     i === 0 ? '' : '',
-//     i === paginationLinks.length - 1 ? 'rounded-r-md' : '',
-// ]"
