@@ -139,7 +139,7 @@ class PasswordGenerator
                                     Number of words
                                 </label>
                                 <input
-                                class="bg-gray-50 border border-gray-300 py-1 px-5 w-full rounded-md text-gray-600"
+                                class="bg-gray-50 border border-gray-300 !py-1 !px-5 w-full rounded-md text-gray-600"
                                 type="number"
                                 id="num-words"
                                 max="10"
@@ -152,7 +152,7 @@ class PasswordGenerator
                                     Word Separator
                                 </label>
                                 <input
-                                class="bg-gray-50 border border-gray-300 py-1 px-5 w-full rounded-md text-gray-600"
+                                class="bg-gray-50 border border-gray-300 !py-1 !px-5 w-full rounded-md text-gray-600"
                                 type="text"
                                 id="word-separator"
                                 value="-"
