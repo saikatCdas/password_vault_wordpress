@@ -19,7 +19,7 @@ class Vault extends Model
      * 
      * @return void 
      */
-    public static function getInfo($data){
+    public static function getInfo($data, $page_number = 1 ){
         // decoding data
         $decodedData = json_decode(urldecode($data), true);
         // return $decodedData;
@@ -35,16 +35,16 @@ class Vault extends Model
         //checking is the request for category or folder
         if($parts[0] === "category"){
             if(($parts[1] === 'all') || ($parts[1] === 'All items')){
-                $vaultItems = Vault::where('user_id', $current_user_id)->paginate(20);
+                $vaultItems = Vault::where('user_id', $current_user_id)->paginate(15, ['*'],'page', $page_number);
             } else{
-                $vaultItems = Vault::where('user_id', $current_user_id)->where('category', ucfirst($parts[1]))->paginate(20);
+                $vaultItems = Vault::where('user_id', $current_user_id)->where('category', ucfirst($parts[1]))->paginate(15, ['*'],'page', $page_number);
             }
         }else{
             if($parts[1] === "No Folder"){
-                $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', null)->paginate(20);
+                $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', null)->paginate(15, ['*'],'page', $page_number);
             }else{
                 $folderId = (new FolderTools())->getFolderId($parts[1]);
-                $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', $folderId )->paginate(20);
+                $vaultItems = Vault::where('user_id', $current_user_id)->where('folder_id', $folderId )->paginate(15, ['*'],'page', $page_number);
             }
         }
 
@@ -148,6 +148,8 @@ class Vault extends Model
      * @return void
      */
     public static function searchItems ($searchInp){
+        $page_number = $searchInp['page'] !== null ? $searchInp['page'] : 1;
+        // return $page_number;
         $key = $searchInp['searchInp'];
         $result = Vault::latest()->where('user_id',(new Vault())->authUserId())
         ->where('name', 'like', '%' . $key . '%')
@@ -155,8 +157,9 @@ class Vault extends Model
         ->orWhere('category', 'like', '%' . $key . '%')
         ->orWhere('user_name', 'like', '%' . $key . '%')
         ->orWhere('url', 'like', '%' . $key . '%')
-        ->orWhere('notes', 'like', '%' . $key . '%')->paginate(20);
+        ->orWhere('notes', 'like', '%' . $key . '%')->paginate(15, ['*'],'page', $page_number);
         return $result;
+        // ->paginate(15, ['*'],'page', $page_number)
     }
 
 

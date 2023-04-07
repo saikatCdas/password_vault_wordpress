@@ -48,6 +48,7 @@ function fp_tools_enqueue_scripts() {
     $ns = (App::getInstance())->config->get('app.rest_namespace');
     $ver = (App::getInstance())->config->get('app.rest_version');
 
+    wp_enqueue_script('fp_notification', FULENTPLUGIN_URL . 'assets/js/notification.js', array('jquery'), FULENTPLUGIN_VERSION, true);
     wp_enqueue_script('fp-tools-js', FULENTPLUGIN_URL . 'assets/js/tools.js', array('jquery'), FULENTPLUGIN_VERSION, true);
     wp_enqueue_script('fulentplugin_public_css', "https://cdn.tailwindcss.com");
     wp_localize_script( 'fp-tools-js', 'fp_plugin_data', array(

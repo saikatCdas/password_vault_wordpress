@@ -40,70 +40,94 @@ jQuery(document).ready(function(){
         menuButtonDiv.hide();
     });
 
-    //  // Deleteing selected items
+   
+     //  // Deleteing selected items
     jQuery('#delete-selected-items').click(function(){
-        jQuery.ajax({
-          url: window.fp_plugin_data.rest_url + '/delete-selected-vault-item/' + itemsId,  
-          type: 'DELETE',
-          dataType: 'json',
-          data: {ids : itemsId},
-          success: function(response) {
-            jQuery.each(itemsId, function(index, id) {
-              // jQuery(`#${id}`).closest('div').remove();
-              jQuery(`.${id}`).remove();
-            });
-
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
-              console.error(textStatus + ': ' + errorThrown);
-          }
-      })
-      });
-
-      //moving selected item
-      jQuery('#move-selected-items').click(function(){
-        jQuery('#folder-modal').show();
-        jQuery('#create-folder-name').hide();
-        jQuery('#create-folder-name').prop('required', false);
-        jQuery('#show-folder-name').show();
-        jQuery('#folder-modal-header').text('Change Folder');
-        jQuery('#folder-modal-sumbit-button').text('Change');
-        jQuery('#folder-name-select').find('option').not('#option-no-folder').remove();
-        // get folder name form folder 
-        jQuery.ajax({
-          url: window.fp_plugin_data.ajax_url, 
-          type: 'GET',
-          dataType: 'json',
-          data: {
-            action: 'fp_get_folder_items'
-          },
-          success: function(response) {
-            jQuery.each(response, function(index, folder) {
-              let option = `<option id="`+ folder.id +`" value="`+ folder.id +`">`+ folder.name +`</option>`
-              jQuery(option).insertBefore('#option-no-folder');
-            });
-            
-          },
-          error: function(jqXHR, textStatus, errorThrown) {
+      if(itemsId.length > 0){
+      jQuery.ajax({
+        url: window.fp_plugin_data.rest_url + '/delete-selected-vault-item/' + itemsId,  
+        type: 'DELETE',
+        dataType: 'json',
+        data: {ids : itemsId},
+        success: function(response) {
+          jQuery.each(itemsId, function(index, id) {
+            // jQuery(`#${id}`).closest('div').remove();
+            jQuery(`.${id}`).remove();
+            notificationView('success', 'Deleted successfully!!!');
+          });
+          itemsId = [];
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
             console.error(textStatus + ': ' + errorThrown);
-          }
-        })
+            notificationView('error', 'Something is wrong!!!');
+        }
       })
+      } else{
+        notificationView('error', 'Please select one or more item!!!');
+      }
+    });
+   
 
-      // selecting all items
-      jQuery('#selecting-all-items').click(function(){
-        itemsId = [];
-        jQuery('.item-checkbox').each(function(){
-          jQuery(this).prop('checked', true);
-          itemsId.push(jQuery(this).val());
-        })
+     
+       //moving selected item
+    jQuery('#move-selected-items').click(function(){
+      if(itemsId.length > 0 ){
+      jQuery('#folder-modal').show();
+      jQuery('#create-folder-name').hide();
+      jQuery('#create-folder-name').prop('required', false);
+      jQuery('#show-folder-name').show();
+      jQuery('#folder-modal-header').text('Change Folder');
+      jQuery('#folder-modal-sumbit-button').text('Change');
+      jQuery('#folder-name-select').find('option').not('#option-no-folder').remove();
+      // get folder name form folder 
+      jQuery.ajax({
+        url: window.fp_plugin_data.ajax_url, 
+        type: 'GET',
+        dataType: 'json',
+        data: {
+          action: 'fp_get_folder_items'
+        },
+        success: function(response) {
+          jQuery.each(response, function(index, folder) {
+            let option = `<option id="`+ folder.id +`" value="`+ folder.id +`">`+ folder.name +`</option>`
+            jQuery(option).insertBefore('#option-no-folder');
+          });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          console.error(textStatus + ': ' + errorThrown);
+          notificationView('error', 'Something is wrong!!!');
+        }
       })
+      } else{
+        notificationView('error', 'Please select one or more item!!!');
+      }
+    })
+     
 
-      // unselecting all items
-      jQuery('#unselect-all-items').click(function(){
+    // selecting all items
+    jQuery('#selecting-all-items').click(function(){
+      itemsId = [];
+      jQuery('.item-checkbox').each(function(){
+        jQuery(this).prop('checked', true);
+        itemsId.push(jQuery(this).val());
+      });
+      if(itemsId.length > 0 ){
+        notificationView('success', 'Selected successfully!!!');
+      } else {
+        notificationView('error', 'Something is wrong!!!');
+      }
+    })
+
+    // unselecting all items
+    jQuery('#unselect-all-items').click(function(){
+      if(itemsId.length > 0){
         jQuery.each(itemsId, function(index, id) {
           jQuery(`#${id}`).prop('checked', false);
         });
         itemsId = [];
-      })
+        notificationView('success', 'Unselected successfully!!!');
+      } else {
+        notificationView('error', 'There is no selected item!!!');
+      }
+    })
 });

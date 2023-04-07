@@ -5,6 +5,8 @@ use FluentPlugin\App\Modules\Builder\Vault\ShowVaultItem;
 use FluentPlugin\App\Modules\Builder\Vault\MenuButton;
 use FluentPlugin\App\Modules\Builder\Vault\AddVaultItem;
 use FluentPlugin\App\Modules\Builder\Vault\FolderModal;
+use FluentPlugin\App\Modules\Builder\Notification;
+use FluentPlugin\App\Modules\Builder\Vault\Pagination;
 
 class Vault 
 {
@@ -109,10 +111,12 @@ class Vault
                         </div>
                         <hr class="">
                         <?php echo (new ShowVaultItem())->render() ?>
+                        <?php echo (new Pagination())->render() ?>
                     </div>
                 </div>
                 <?php echo (new AddVaultItem())->render() ?>
                 <?php echo (new FolderModal)->render() ?>
+                <?php echo (new Notification)->render() ?>
             </div>
         <?php
         $form = ob_get_clean();

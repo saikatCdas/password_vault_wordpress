@@ -22,8 +22,10 @@ class VaultController extends Controller
      */
     public function getVaultItems()
     {
+        // $page_number = request()->query('page') ?: 1;
+        // wp_send_json();
         try{
-            wp_send_json(Vault::getInfo($_GET['encodedData'])) ; 
+            wp_send_json(Vault::getInfo($_GET['encodedData'], $_GET['page'])) ; 
         } catch (\Exception $e){
             wp_send_json_error([
                 'message' => $e->getMessage()

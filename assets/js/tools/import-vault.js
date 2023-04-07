@@ -28,10 +28,12 @@
       processData: false,
       contentType: false,
       success: function(data) {
-          jQuery('#csv-file-input').val('');          ;
+          jQuery('#csv-file-input').val(''); 
+          notificationView('success', 'Data imported successfully!!!');         ;
       },
       error: function(jqXHR, textStatus, errorThrown) {
           console.log(textStatus, errorThrown);
+          notificationView('error', 'Something is wrong!!!');
       }
     });
    

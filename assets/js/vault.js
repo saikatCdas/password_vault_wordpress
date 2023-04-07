@@ -77,15 +77,19 @@ jQuery(document).ready(function() {
         jQuery('#folder-modal').hide();
         if(selectSubmitButton === "Create"){
           jQuery(folderName(response.name)).insertBefore('.no-folder-button');
+          notificationView('success', 'Folder created successfully!!!');
         } else{
           jQuery.each(itemsId, function(index, id) {
             // jQuery(`#${id}`).closest('div').remove();
             jQuery(`.${id}`).remove();
           });
+          notificationView('success', 'Moved successfully!!!');
         }
       },
       error: function(jqXHR, textStatus, errorThrown) {
           console.log(textStatus, errorThrown);
+          jQuery('#folder-modal').hide();
+          notificationView('error', 'Something went wrong!!!');
       }
 
     }).then(()=>{
@@ -161,15 +165,17 @@ jQuery(document).ready(function() {
 
     
     // getting the item from baceknd;
-    function getVaultItems(type){
+    function getVaultItems(type, url = null){
       itemsId= [];
       let queryString;
 
+      url = url || window.fp_plugin_data.ajax_url;
       queryString = Object.keys(type).map(key => key + '=' + type[key]).join('&');
       const encodedData = encodeURIComponent(JSON.stringify(queryString));
 
       jQuery.ajax({
-          url: window.fp_plugin_data.ajax_url,  
+          url: url,  
+          // url: '/wp-json/fluentplugin/v2/search?page=2',
           type: 'GET',
           dataType: 'json',
           data: {
@@ -177,10 +183,14 @@ jQuery(document).ready(function() {
             action: 'fp_get_vault_items'
           },
           success: function(response) {
+            if(response.next_page_url || response.prev_page_url){
+              pagination(type, response, getVaultItems);
+            }
             showVaultItemsOnFront(response.data);
           },
           error: function(jqXHR, textStatus, errorThrown) {
               console.error(textStatus + ': ' + errorThrown);
+              notificationView('error', 'Something is wrong!!!');
           }
       }).then(()=>{
 
@@ -213,6 +223,7 @@ jQuery(document).ready(function() {
             },
             error: function(jqXHR, textStatus, errorThrown) {
               console.error(textStatus + ': ' + errorThrown);
+              notificationView('error', 'Something is wrong!!!');
             }
           });
           editVautlItem(jQuery(this).attr('id'));
@@ -262,17 +273,22 @@ jQuery(document).ready(function() {
     });
 
     // search in database
-    function search(data){
+    function search(data, url = null){
+        url = url || window.fp_plugin_data.rest_url + '/search';
         jQuery.ajax({
-            url: window.fp_plugin_data.rest_url + '/search',  
+            url: url,  
             type: 'GET',
             dataType: 'json',
             data: data,
             success: function(response) {
+              if(response.next_page_url || response.prev_page_url){
+                pagination(data, response, search);
+              }
               showVaultItemsOnFront(response.data);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error(textStatus + ': ' + errorThrown);
+                notificationView('error', 'Something is wrong!!!');
             }
         })
     }
@@ -293,6 +309,7 @@ jQuery(document).ready(function() {
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.error(textStatus + ': ' + errorThrown);
+            notificationView('error', 'Something is wrong!!!');
         }
     })
     }
@@ -337,6 +354,37 @@ jQuery(document).ready(function() {
 
 
       jQuery('#add-menu-item-modal').show();
+    }
+
+    function pagination(data, response, pageItems){
+      jQuery('#pagination-div').show();
+      jQuery('#pagination-div').addClass('!flex');
+      jQuery('#pagination-nav').empty();
+      var url = response.next_page_url !== null ? response.next_page_url : response.prev_page_url
+      var newUrl = url.replace(/\?page=\d+|&page=\d+/g, '?page=');
+      var totalPage = response.last_page;
+      // console.log(totalPage);
+      for (let i = 1; i <= totalPage; i++) {
+        jQuery('#pagination-nav').append(
+          `<button 
+              type="button"
+              value="`+newUrl+i+`"
+              id="page-number-`+i+`"
+              class="relative inline-flex items-center px-4 py-2 border text-sm font-medium whitespace-nowrap bg-white border-gray-300 text-gray-500 hover:bg-gray-50 rounded-l-md rounded-r-md bg-gray-100 text-gray-700"
+              >
+              `+i+`
+          </a>`
+        )
+      }
+      jQuery(`#page-number-${response.current_page}`).addClass('z-10 bg-indigo-50 border-indigo-500 text-indigo-600')
+      
+      jQuery('#pagination-nav button').click(function() {
+        if(jQuery(this).attr('id') === `page-number-${response.current_page}`){
+          console.log('hello world');
+          return;
+        }
+        pageItems(data ,jQuery(this).attr('value'))
+      });
     }
 
     // adding folder name into button

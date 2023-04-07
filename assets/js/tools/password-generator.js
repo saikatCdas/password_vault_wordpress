@@ -202,10 +202,9 @@ jQuery(document).ready(function(){
      
         try {
            var successful = document.execCommand( 'copy' );
-           var msg = successful ? 'successful' : 'unsuccessful';
-           alert('Copying text command was ' + msg);
+           var msg = successful ? notificationView('success', 'Password copied successfully!!!') : notificationView('error', 'Something is wrong!!!');
         } catch (err) {
-           alert('Oops, unable to copy');
+            notificationView('error', 'Something is wrong!!!');
         }
      
         document.body.removeChild( textArea );

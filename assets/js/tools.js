@@ -28,6 +28,7 @@ jQuery(document).ready( function () {
             },
             error: function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
+            notificationView('error', 'Something is wrong!!!');
             }
         });
     }

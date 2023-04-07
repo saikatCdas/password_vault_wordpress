@@ -26,6 +26,7 @@ jQuery(document).ready(function() {
         },
         error: function(jqXHR, textStatus, errorThrown) {
           console.error(textStatus + ': ' + errorThrown);
+          notificationView('error', 'Something is wrong!!!');
         }
       });
     });
@@ -84,10 +85,14 @@ jQuery(document).ready(function() {
         type: method,
         success: function(data) {
             jQuery('#add-menu-item-modal').hide();
-            location.reload(true);
+            notificationView('success', 'Completed successfully!!!');
+            setTimeout(()=>{
+              location.reload(true);
+            }, 500)
         },
         error: function(jqXHR, textStatus, errorThrown) {
             console.log(textStatus, errorThrown);
+            notificationView('error', 'Something is wrong!!!');
         }
       });
       

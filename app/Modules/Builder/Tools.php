@@ -1,6 +1,7 @@
 <?php
 
 namespace FluentPlugin\App\Modules\Builder;
+use FluentPlugin\App\Modules\Builder\Notification;
 
 
 class Tools 
@@ -28,6 +29,7 @@ class Tools
                     </div>
                 </div>
             </div>
+            <?php echo (new Notification)->render() ?>
         </div>
         <?php
         $tools = ob_get_clean();        

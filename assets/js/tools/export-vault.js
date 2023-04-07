@@ -24,9 +24,11 @@ jQuery('#exportButton').click(function () {
           link.setAttribute("href", url);
           link.setAttribute("download", "data.csv");
           link.click();
+          notificationView('success', 'Data exported successfully!!!');
         },
         error: function(jqXHR, textStatus, errorThrown) {
         console.log(textStatus, errorThrown);
+        notificationView('error', 'Something is wrong!!!');
         }
     });
 
