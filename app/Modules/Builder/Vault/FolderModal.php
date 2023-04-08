@@ -57,9 +57,9 @@ class FolderModal
             </div>
         </div>
        <?php
-        $form = ob_get_clean();
+        $folderModal = ob_get_clean();
 
-        return apply_filters('fluentForm/rendered_form_html',  $form);
+        return apply_filters('fluentForm/rendered_folderModal_html',  $folderModal);
     }
 
 }

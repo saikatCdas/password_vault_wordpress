@@ -45,8 +45,8 @@ class MenuButton
             </div>
         </div>
         <?php
-        $form = ob_get_clean();
-        return apply_filters('fluentForm/rendered_form_html',  $form);
+        $menuButton = ob_get_clean();
+        return apply_filters('fluentForm/rendered_menuButton_html',  $menuButton);
     }
 
 }

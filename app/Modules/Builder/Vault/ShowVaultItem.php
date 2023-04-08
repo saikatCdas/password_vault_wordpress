@@ -27,8 +27,8 @@ class ShowVaultItem
             </div>
         </div>
         <?php
-        $form = ob_get_clean();
-        return apply_filters('fluentForm/rendered_form_html',  $form);
+        $showVaultItem = ob_get_clean();
+        return apply_filters('fluentForm/rendered_showVaultItem_html',  $showVaultItem);
     }
 
 }

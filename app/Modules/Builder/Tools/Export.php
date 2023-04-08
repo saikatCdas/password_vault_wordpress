@@ -21,9 +21,9 @@ class Export
                 <p class="p"></p>
             </div>
         <?php
-        $form = ob_get_clean();
+        $export = ob_get_clean();
 
-        return apply_filters('fluentForm/rendered_form_html',  $form);
+        return apply_filters('fluentForm/rendered_export_html',  $export);
     }
 
 }

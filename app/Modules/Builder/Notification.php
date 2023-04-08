@@ -20,10 +20,9 @@ class Notification
             <p id="notification-message"></p>
         </div>
         <?php
-        $tools = ob_get_clean();        
+        $notifiaction = ob_get_clean();        
 
-        return apply_filters('fluentForm/rendered_tools_html',  $tools);
+        return apply_filters('fluentForm/rendered_tools_html',  $notifiaction);
     }
 }
 
-// :class="[notification.type === 'success'? '' : '' ,'']

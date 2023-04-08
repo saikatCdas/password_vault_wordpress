@@ -119,14 +119,10 @@ class Vault
                 <?php echo (new Notification)->render() ?>
             </div>
         <?php
-        $form = ob_get_clean();
+        $vault = ob_get_clean();
         $this->addAssets();
-        return apply_filters('fluentForm/rendered_form_html',  $form);
+        return apply_filters('fluentForm/rendered_vault_html',  $vault);
     }
-
-    // private function addAssets(){
-    //     do_action('wp_footer', $this->assets());
-    // }
     private function addAssets()
     {
         wp_enqueue_script('fp_vault', FULENTPLUGIN_URL . 'assets/js/vault.js', array('jquery'), FULENTPLUGIN_VERSION, true);

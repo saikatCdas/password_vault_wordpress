@@ -18,8 +18,8 @@ class Pagination
             </nav>
         </div>
         <?php
-        $form = ob_get_clean();
-        return apply_filters('fluentForm/rendered_form_html',  $form);
+        $pagination = ob_get_clean();
+        return apply_filters('fluentForm/rendered_pagination_html',  $pagination);
     }
 
 }

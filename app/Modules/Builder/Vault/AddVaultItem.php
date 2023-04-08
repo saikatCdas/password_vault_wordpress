@@ -115,9 +115,9 @@ class AddVaultItem
                 </div>
             </div>
         <?php
-        $form = ob_get_clean();
+        $addVaultItem = ob_get_clean();
 
-        return apply_filters('fluentForm/rendered_form_html',  $form);
+        return apply_filters('fluentForm/rendered_addVaultItem_html',  $addVaultItem);
     }
 
 }
