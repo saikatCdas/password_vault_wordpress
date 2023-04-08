@@ -36,7 +36,10 @@ const store = createStore({
             return Rest.delete(`delete-selected-vault-item/${itemId}`);
         },
         getItem({commit}, id){
-            return get(`get-item/${id}`)
+            return get(`get-item`,{
+                    id: id
+                  }
+            )
                 .then((data)=>{
                     commit('setVaultItem', data);
                 })
@@ -49,7 +52,7 @@ const store = createStore({
                 queryString = Object.keys(type).map(key => key + '=' + type[key]).join('&');
             }
             const encodedData = encodeURIComponent(JSON.stringify(queryString));
-            // checking if request has url
+            // checking if request has url 
             url = url || `get-all-vault/${encodedData}`
             return get(url)
                 .then((data)=>{

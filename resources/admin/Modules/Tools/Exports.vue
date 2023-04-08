@@ -1,11 +1,14 @@
 <template>
-    <div>
+    <div class="bg-emerald-500 text white rounded-md w-[300px] h-[60px] flex items-center justify-center mt-4 mr-4">
+            <a href="#" class="text-white text-[23px] no-underline border-none outline-none focus:outline-none focus:ring-none active:outline-double active:outline-2 focus:shadow-none">Upgrade to pro</a>
+    </div>
+    <!-- <div>
         <h1 class="text-3xl text-gray-700">Export Vault</h1>
         <hr class="mt-4">
     </div>
     <div class="mt-4">
         <a href="#" @click.prevent="exportData" class="py-2 px-3 text-lg rounded-md bg-emerald-500 hover:bg-emerald-600 text-white">Export Data</a>
-    </div>
+    </div> -->
 </template>
 
 <script setup>

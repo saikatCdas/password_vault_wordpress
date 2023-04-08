@@ -95,6 +95,7 @@ class VaultController extends Controller
     public function getItemById(Request $request){
         try{
             $id = $request->all();
+            // return $id['id'];
             wp_send_json(Vault::getVaultItemById($id['id']));
         } catch (\Exception $e){
             wp_send_json_error([
