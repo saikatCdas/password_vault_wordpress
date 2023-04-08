@@ -21,7 +21,9 @@ const store = createStore({
     getters:{},
     actions:{
         search({commit}, searchInp){
-            return get(`search/${searchInp}`)
+            return get(`search`, {
+                searchInp: searchInp
+            })
             .then((data)=>{
                 commit('setVaultItems', data);
             });

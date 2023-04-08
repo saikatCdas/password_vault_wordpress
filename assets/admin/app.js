@@ -35247,7 +35247,9 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.createStore)({
   actions: {
     search: function search(_ref, searchInp) {
       var commit = _ref.commit;
-      return get("search/".concat(searchInp)).then(function (data) {
+      return get("search", {
+        searchInp: searchInp
+      }).then(function (data) {
         commit('setVaultItems', data);
       });
     },
