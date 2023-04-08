@@ -87,24 +87,24 @@ function tool_page_component_handler() {
 
 
 
-// export vault data from database
-add_action( 'wp_ajax_fp_export_vault', array($vaultController, 'export') );
-add_action( 'wp_ajax_nopriv_fp_export_vault', array($vaultController, 'export') );
+// // export vault data from database
+// add_action( 'wp_ajax_fp_export_vault', array($vaultController, 'export') );
+// add_action( 'wp_ajax_nopriv_fp_export_vault', array($vaultController, 'export') );
 
 
-// import data into the vault
-add_action( 'wp_ajax_fp_import_vault', array($vaultController, 'import') );
-add_action( 'wp_ajax_nopriv_fp_import_vault', array($vaultController, 'import') );
+// // import data into the vault
+// add_action( 'wp_ajax_fp_import_vault', array($vaultController, 'import') );
+// add_action( 'wp_ajax_nopriv_fp_import_vault', array($vaultController, 'import') );
 
 
 // get data from the vault
-add_action( 'wp_ajax_fp_get_vault_items', array($vaultController, 'getVaultItems') );
-add_action( 'wp_ajax_nopriv_fp_get_vault_items', array($vaultController, 'getVaultItems') );
+// add_action( 'wp_ajax_fp_get_vault_items', array($vaultController, 'getVaultItems') );
+// add_action( 'wp_ajax_nopriv_fp_get_vault_items', array($vaultController, 'getVaultItems') );
 
 // get folder name from the folder
-add_action( 'wp_ajax_fp_get_folder_items', array($folderController, 'allFolder') );
-add_action( 'wp_ajax_nopriv_fp_get_folder_items', array($vaultController, 'allFolder') );
+// add_action( 'wp_ajax_fp_get_folder_items', array($folderController, 'allFolder') );
+// add_action( 'wp_ajax_nopriv_fp_get_folder_items', array($vaultController, 'allFolder') );
 
 // crete a vault item
-add_action( 'wp_ajax_fp_create_vault_item', array($vaultController, 'store') );
-add_action( 'wp_ajax_nopriv_fp_create_vault_item', array($vaultController, 'store') );
+// add_action( 'wp_ajax_fp_create_vault_item', array($vaultController, 'store') );
+// add_action( 'wp_ajax_nopriv_fp_create_vault_item', array($vaultController, 'store') );

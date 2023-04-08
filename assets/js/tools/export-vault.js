@@ -1,11 +1,11 @@
 jQuery('#exportButton').click(function () {
       jQuery.ajax({
-        url: window.fp_plugin_data.ajax_url,
-        type: "POST",
+        url: window.fp_plugin_data.rest_url + '/export',
+        type: "GET",
         dataType: "json",
-        data: {
-        action: "fp_export_vault",
-        },
+        // data: {
+        // action: "fp_export_vault",
+        // },
         success: function(response) {
           // returning if the vault has no items
           if( Object.keys(response).length === 0){

@@ -12,14 +12,15 @@ jQuery(document).ready(function() {
     // get folder information for add item form
     jQuery('#add-item-modal-button').click(function(){
       jQuery.ajax({
-        url: window.fp_plugin_data.ajax_url, 
+        url: window.fp_plugin_data.rest_url + '/get-folder', 
         type: 'GET',
         dataType: 'json',
-        data: {
-          action: 'fp_get_folder_items'
-        },
+        // data: {
+        //   action: 'fp_get_folder_items'
+        // },
         success: function(response) {
           var folderSelect = jQuery('#folder');
+          folderSelect.find('option').not('#choose-a-foderl').remove();
           jQuery.each(response, function(index, folder) {
             folderSelect.append('<option value="' + folder.name + '">' + folder.name + '</option>');
           });

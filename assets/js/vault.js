@@ -105,12 +105,12 @@ jQuery(document).ready(function() {
 
     // get folder name form folder 
     jQuery.ajax({
-      url: window.fp_plugin_data.ajax_url, 
+      url: window.fp_plugin_data.rest_url + '/get-folder', 
       type: 'GET',
       dataType: 'json',
-      data: {
-        action: 'fp_get_folder_items'
-      },
+      // data: {
+      //   action: 'fp_get_folder_items'
+      // },
       success: function(response) {
         var folderNameContainer = [];
   
@@ -169,7 +169,7 @@ jQuery(document).ready(function() {
       itemsId= [];
       let queryString;
 
-      url = url || window.fp_plugin_data.ajax_url;
+      url = url || window.fp_plugin_data.rest_url + '/get-all-vault';
       queryString = Object.keys(type).map(key => key + '=' + type[key]).join('&');
       const encodedData = encodeURIComponent(JSON.stringify(queryString));
 
@@ -180,7 +180,7 @@ jQuery(document).ready(function() {
           dataType: 'json',
           data: {
             encodedData,
-            action: 'fp_get_vault_items'
+            // action: 'fp_get_vault_items'
           },
           success: function(response) {
             if(response.next_page_url || response.prev_page_url){
@@ -213,14 +213,15 @@ jQuery(document).ready(function() {
         // editing item
         jQuery('.edit-vault-item-button').click(function(){
           jQuery.ajax({
-            url: window.fp_plugin_data.ajax_url, 
+            url: window.fp_plugin_data.rest_url + '/get-folder', 
             type: 'GET',
             dataType: 'json',
-            data: {
-              action: 'fp_get_folder_items'
-            },
+            // data: {
+            //   action: 'fp_get_folder_items'
+            // },
             success: function(response) {
               var folderSelect = jQuery('#folder');
+              folderSelect.find('option').not('#choose-a-foderl').remove();
               jQuery.each(response, function(index, folder) {
                 folderSelect.append('<option value="' + folder.name + '">' + folder.name + '</option>');
               });

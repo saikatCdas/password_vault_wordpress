@@ -8,7 +8,7 @@ class AddVaultItem
     {
          ob_start()
         ?>
-            <div id="add-menu-item-modal" class="hidden">
+            <div id="add-menu-item-modal" class="hidden z-50">
                 <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true"> 
                     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity">                                
                     </div>
@@ -47,7 +47,7 @@ class AddVaultItem
                                     <div class="mb-4">
                                         <label for="folder" class="block text-md font-semibold text-gray-900 capitalize">Folder</label>
                                         <select id="folder" name="folder" class="block w-full max-w-full px-3 py-2 mt-2 text-gray-600 placeholder-gray-400 bg-white border border-gray-300 rounded-md focus:border-indigo-400 focus:outline-none focus:ring focus:ring-indigo-300 focus:ring-opacity-40">
-                                            <option value="">Choose a folder</option>
+                                            <option id="choose-a-foderl" value="">Choose a folder</option>
                                         </select>
                                     </div>
 

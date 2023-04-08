@@ -8,7 +8,7 @@
 // $router->get('/welcome', 'WelcomeController@index');
 
 $router->post('/create-vault', 'VaultController@store');
-$router->get('/get-all-vault/{type}', 'VaultController@getVaultItems');
+$router->get('/get-all-vault', 'VaultController@getVaultItems');
 $router->post('/create-folder', 'FolderController@store');
 $router->get('/get-folder', 'FolderController@allFolder');
 $router->get('/get-item', 'VaultController@getItemById');
@@ -19,7 +19,7 @@ $router->get('/search', 'VaultController@search');
 $router->get('/export', 'VaultController@export');
 $router->post('/import', 'VaultController@import');
 
-
+ 
 
 
 

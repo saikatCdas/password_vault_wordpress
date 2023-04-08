@@ -81,12 +81,12 @@ jQuery(document).ready(function(){
       jQuery('#folder-name-select').find('option').not('#option-no-folder').remove();
       // get folder name form folder 
       jQuery.ajax({
-        url: window.fp_plugin_data.ajax_url, 
+        url: window.fp_plugin_data.rest_url + '/get-folder', 
         type: 'GET',
         dataType: 'json',
-        data: {
-          action: 'fp_get_folder_items'
-        },
+        // data: {
+        //   action: 'fp_get_folder_items'
+        // },
         success: function(response) {
           jQuery.each(response, function(index, folder) {
             let option = `<option id="`+ folder.id +`" value="`+ folder.id +`">`+ folder.name +`</option>`

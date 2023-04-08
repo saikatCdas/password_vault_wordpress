@@ -17,11 +17,11 @@
     formData.append('import_file', file);
 
     // append action
-    formData.append('action', 'fp_import_vault');
+    // formData.append('action', 'fp_import_vault');
 
     // sending the ajax request to the backend using action
     jQuery.ajax({
-      url: window.fp_plugin_data.ajax_url,
+      url: window.fp_plugin_data.rest_url + '/import',
       type: "POST",
       dataType: "json",
       data: formData,
