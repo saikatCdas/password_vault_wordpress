@@ -35286,7 +35286,8 @@ var store = (0,vuex__WEBPACK_IMPORTED_MODULE_1__.createStore)({
       }
       var encodedData = encodeURIComponent(JSON.stringify(queryString));
       // checking if request has url 
-      url = url || "get-all-vault/".concat(encodedData);
+      url = url || 'get-all-vault';
+      console.log(url);
       return get(url).then(function (data) {
         commit('setVaultItems', data);
       });

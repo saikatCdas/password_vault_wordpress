@@ -55,7 +55,8 @@ const store = createStore({
             }
             const encodedData = encodeURIComponent(JSON.stringify(queryString));
             // checking if request has url 
-            url = url || `get-all-vault/${encodedData}`
+            url = url || 'get-all-vault'
+            console.log(url);
             return get(url)
                 .then((data)=>{
                     commit('setVaultItems', data);
